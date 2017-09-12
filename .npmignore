@@ -1,0 +1,6 @@
+docs
+src
+tests
+.editorconfig
+.gitignore
+webpack.config.js
