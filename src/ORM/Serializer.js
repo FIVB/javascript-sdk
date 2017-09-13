@@ -4,15 +4,15 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
-// import _ from 'lodash'
+import { first, last } from 'lodash-es'
 
-class JSONSerializer {
+class Serializer {
   /**
    * Constructor.
    *
    * @constructor
    */
-  constructor (rows, pages = null, isOne = false) {
+  constructor (rows, isOne = false) {
     this.rows = rows
     this.isOne = isOne
   }
@@ -25,7 +25,7 @@ class JSONSerializer {
    *
    * @return {Object}
    */
-  $getRowJSON (modelInstance) {
+  static $getRowJSON (modelInstance) {
     return modelInstance.toObject()
   }
 
@@ -48,7 +48,7 @@ class JSONSerializer {
    * @return {Model}
    */
   first () {
-    // return _.first(this.rows)
+    return first(this.rows)
   }
 
   /**
@@ -57,7 +57,7 @@ class JSONSerializer {
    * @return {Model}
    */
   last () {
-    // return _.last(this.rows)
+    return last(this.rows)
   }
 
   /**
@@ -80,8 +80,8 @@ class JSONSerializer {
       return this.$getRowJSON(this.rows)
     }
 
-    return this.rows.map(this.$getRowJSON.bind(this))
+    return this.rows.map(Serializer.$getRowJSON.bind(this))
   }
 }
 
-export default JSONSerializer
+export default Serializer

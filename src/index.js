@@ -9,7 +9,6 @@ import Config from './Core/Config'
 import Player from './Player/Player'
 import Request from './Network/Request'
 import HttpClient from './Network/HttpClient'
-import VolleyMatch from './Volley/VolleyMatch'
 
 export default {
   Auth,
@@ -17,5 +16,4 @@ export default {
   Player,
   Request,
   HttpClient,
-  VolleyMatch,
 }

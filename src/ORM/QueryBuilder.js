@@ -47,7 +47,6 @@ class QueryBuilder {
   }
 
   find ({ key, fields, version }) {
-    const headers = []
     const client = new HttpClient()
     const request = new Request({ type: `Get${this.$getResourceName()}` })
 
@@ -61,23 +60,14 @@ class QueryBuilder {
       request.setAttribute({ name: 'Version', value: version })
     }
 
-    if (this.$model.isXml === true) {
-      headers.push({ name: 'Accept', value: 'application/xml' })
-    }
-
     return new Promise((resolve, reject) => {
       client.send({
         body: request.toString({ wrapped: this.$model.isXml }),
-        headers,
       })
         .then((response) => {
-          if (this.$model.isXml === true) {
-            resolve(new this.$model.Serializer(response, null, true))
-          }
-
           const row = JSON.parse(response).data
           const modelInstance = this.$mapRowToInstance(row)
-          resolve(new this.$model.Serializer(modelInstance, null, true))
+          resolve(new this.$model.Serializer(modelInstance, true))
         })
         .catch((e) => {
           reject(e)
@@ -94,7 +84,6 @@ class QueryBuilder {
    * @return {Promise}
    */
   fetch ({ fields, version }) {
-    const headers = []
     const client = new HttpClient()
     const request = new Request({ type: `Get${this.$getResourceName()}List` })
 
@@ -110,20 +99,11 @@ class QueryBuilder {
       // ...
     }
 
-    if (this.$model.isXml === true) {
-      headers.push({ name: 'Accept', value: 'application/xml' })
-    }
-
     return new Promise((resolve, reject) => {
       client.send({
         body: request.toString({ wrapped: this.$model.isXml }),
-        headers,
       })
         .then((response) => {
-          if (this.$model.isXml === true) {
-            resolve(new this.$model.Serializer(response))
-          }
-
           const rows = JSON.parse(response).data
           const modelInstances = this.$mapRowsToInstances(rows)
           resolve(new this.$model.Serializer(modelInstances))

@@ -9,13 +9,9 @@ Config.use({
 
 // Player.all({ key: 100096, fields: ['No', 'FirstName', 'LastName'] })
 //   .then(data => console.log('index', data.toJSON()))
-//   .catch(e => console.log('index', e))
+  // .catch(e => console.log('index', e))
 
-VolleyMatch.all({ fields: ['No'], version: 1898314 })
-  .then(data => console.log('index ', data))
-  .catch(e => console.log('index', e))
-
-// Auth.attempt({ username: 'romain.lanz', password: 'password' })
+// Auth.attempt({ username: 'romain.lanz', password: 'simplex' })
 //   .then(data => console.log(data))
 //   .catch(e => console.log(e))
 
@@ -25,7 +21,7 @@ VolleyMatch.all({ fields: ['No'], version: 1898314 })
 //   .then(data => console.log('index ', data))
 //   .catch(e => console.log('index ', e))
 
-// const request = new Request({ type: 'GetVolleyLive' })
+// const request = new Request({ type: 'GetVolleyMatchList' })
 // request.setAttributes([
 //   { name: 'No', value: '7203' },
 //   { name: 'Options', value: '65535' },
@@ -33,7 +29,12 @@ VolleyMatch.all({ fields: ['No'], version: 1898314 })
 
 // const client = new HttpClient()
 
-// client.send({ body: request.toString({ wrapped: true }) })
+// client.send({
+//   body: request.toString({ wrapped: true }),
+//   headers: [
+//     { name: 'Accept', value: 'application/xml' }
+//   ]
+// })
 //   .then(response => {
 //     console.log(response)
 //   })

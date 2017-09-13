@@ -4,8 +4,8 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
+import Serializer from './Serializer'
 import QueryBuilder from './QueryBuilder'
-import JSONSerializer from './Serializers/JSONSerializer'
 
 class Model {
   /**
@@ -16,14 +16,7 @@ class Model {
    * @return {Serializer}
    */
   static get Serializer () {
-    return JSONSerializer
-  }
-
-  /**
-   * Defines if the model use XML format.
-   */
-  static get isXml () {
-    return false
+    return Serializer
   }
 
   /**
@@ -102,7 +95,7 @@ class Model {
    * @return {Object}
    */
   toJSON () {
-    return new this.constructor.Serializer(this, null, true).toJSON()
+    return new this.constructor.Serializer(this, true).toJSON()
   }
 }
 
