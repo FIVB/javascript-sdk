@@ -9,11 +9,12 @@ class Request {
    * Constructor.
    *
    * @constructor
-   * @param  {string}    param.type               - Type of the request
+   * @param  {string}    param.type  - Type of the request
    */
   constructor ({ type }) {
     this.$type = type
     this.$filters = new Map()
+    this.$relations = new Map()
     this.$attributes = new Map()
   }
 
@@ -61,6 +62,14 @@ class Request {
     filters.forEach(filter => this.addFilter(filter))
   }
 
+  addRelations (relations) {
+    relations.forEach(relation => this.addRelation(relation))
+  }
+
+  addRelation ({ name, fields }) {
+    this.$relations.set(name, fields)
+  }
+
   /**
    * Computes the request.
    *
@@ -74,6 +83,10 @@ class Request {
 
     if (this.$filters.size > 0) {
       request += `<Filter ${Array.from(this.$filters).map(([key, value]) => `${key}="${value}"`).join(' ').trim()} />`
+    }
+
+    if (this.$relations.size > 0) {
+      request += Array.from(this.$relations).map(([key, value]) => `<Relation Name="${key}" Fields="${value.join(' ')}" />`).join(' ')
     }
 
     request += '</Request>'

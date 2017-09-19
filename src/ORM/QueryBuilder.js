@@ -46,7 +46,8 @@ class QueryBuilder {
     return rows.map(row => this.$mapRowToInstance(row))
   }
 
-  find ({ key, fields, version }) {
+  // eslint-disable-next-line object-curly-newline
+  find ({ key, fields, relations, version }) {
     const client = new HttpClient()
     const request = new Request({ type: `Get${this.$getResourceName()}` })
 
@@ -58,6 +59,10 @@ class QueryBuilder {
 
     if (version !== void 0) {
       request.setAttribute({ name: 'Version', value: version })
+    }
+
+    if (relations !== void 0) {
+      request.addRelations(relations)
     }
 
     return new Promise((resolve, reject) => {
@@ -83,7 +88,7 @@ class QueryBuilder {
    *
    * @return {Promise}
    */
-  fetch ({ fields, version }) {
+  fetch ({ fields, relations, version }) {
     const client = new HttpClient()
     const request = new Request({ type: `Get${this.$getResourceName()}List` })
 
@@ -93,6 +98,10 @@ class QueryBuilder {
 
     if (version !== void 0) {
       request.setAttribute({ name: 'Version', value: version })
+    }
+
+    if (relations !== void 0) {
+      request.addRelations(relations)
     }
 
     if (this.$filters.size > 0) {

@@ -77,7 +77,7 @@ class Serializer {
    */
   toJSON () {
     if (this.isOne) {
-      return this.$getRowJSON(this.rows)
+      return Serializer.$getRowJSON(this.rows)
     }
 
     return this.rows.map(Serializer.$getRowJSON.bind(this))

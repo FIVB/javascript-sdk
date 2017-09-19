@@ -61,10 +61,6 @@ class HttpClient {
         })
         .then((response) => {
           if (status === false) {
-            if (Config.debug) {
-              console.trace(response)
-            }
-
             throw Error(response)
           }
 
@@ -75,7 +71,11 @@ class HttpClient {
           resolve(true)
         })
         .catch((e) => {
-          reject(e)
+          try {
+            reject(JSON.parse(e.message))
+          } catch (l) {
+            reject(e.message)
+          }
         })
     })
   }

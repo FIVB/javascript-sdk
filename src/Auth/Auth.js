@@ -29,7 +29,9 @@ class Auth {
 
     return new Promise((resolve, reject) => {
       client.send({ body: request.toString() })
-        .then(response => resolve(response))
+        .then((response) => {
+          resolve(JSON.parse(response).data)
+        })
         .catch(e => reject(e))
     })
   }
