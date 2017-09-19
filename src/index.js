@@ -12,7 +12,7 @@ import Request from './Network/Request'
 import HttpClient from './Network/HttpClient'
 import VolleyTransfer from './Volley/VolleyTransfer'
 
-export default {
+export {
   Auth,
   Config,
   BeachTeam,
