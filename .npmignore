@@ -3,4 +3,4 @@ src
 tests
 .editorconfig
 .gitignore
-webpack.config.js
+rollup.config.js
