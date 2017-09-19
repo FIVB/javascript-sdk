@@ -2,5 +2,6 @@ docs
 src
 tests
 .editorconfig
+.eslintrc.js
 .gitignore
 rollup.config.js
