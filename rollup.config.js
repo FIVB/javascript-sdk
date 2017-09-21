@@ -5,7 +5,8 @@
  */
 
 import buble from 'rollup-plugin-buble'
-import cleanup from 'rollup-plugin-cleanup'
+import uglify from 'rollup-plugin-uglify'
+import { minify } from 'uglify-es'
 import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 
@@ -16,9 +17,7 @@ export default [
     input: 'src/index.js',
 
     output: [
-      { file: pkg.main, format: 'cjs' },
-      { file: pkg.module, format: 'es' },
-      { file: pkg.browser, format: 'umd', name: 'Fivb' },
+      { file: 'dist/sdk.umd.js', format: 'umd', name: 'Fivb' },
     ],
 
     plugins: [
@@ -27,7 +26,21 @@ export default [
       }),
       resolve(),
       commonjs(),
-      cleanup(),
+      uglify({}, minify),
+    ],
+  },
+  {
+    input: 'src/index.js',
+    output: [
+      { file: pkg.main, format: 'cjs' },
+      { file: pkg.module, format: 'es' },
+    ],
+    plugins: [
+      resolve(),
+      commonjs(),
+      buble({
+        exclude: ['node_modules/**'],
+      }),
     ],
   },
 ]

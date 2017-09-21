@@ -7,7 +7,6 @@
 // TODO : Change Object.assign() to { ...object, xxx } when available in Rollup
 // TODO : See https://github.com/rollup/rollup/issues/1623
 
-import fetch, { Headers } from 'node-fetch'
 import Config from '../Core/Config'
 
 class HttpClient {
@@ -27,6 +26,8 @@ class HttpClient {
     this.$options = Object.assign({}, options, {
       headers,
       method: 'POST',
+      cache: 'no-store',
+      mode: 'cors',
     })
   }
 
@@ -57,9 +58,11 @@ class HttpClient {
       fetch(`${Config.hostname}/vis2009/XmlRequest.asmx`, Object.assign({}, usedOptions, { body }))
         .then((response) => {
           status = response.ok
+
           return response.text()
         })
         .then((response) => {
+          console.log(response)
           if (status === false) {
             throw Error(response)
           }
@@ -71,6 +74,7 @@ class HttpClient {
           resolve(true)
         })
         .catch((e) => {
+          console.log(e)
           try {
             reject(JSON.parse(e.message))
           } catch (l) {

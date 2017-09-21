@@ -4,8 +4,6 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
-import { first, last } from 'lodash-es'
-
 class Serializer {
   /**
    * Constructor.
@@ -48,7 +46,7 @@ class Serializer {
    * @return {Model}
    */
   first () {
-    return first(this.rows)
+    return this.rows[0]
   }
 
   /**
@@ -57,7 +55,7 @@ class Serializer {
    * @return {Model}
    */
   last () {
-    return last(this.rows)
+    return this.rows[this.rows.length - 1]
   }
 
   /**

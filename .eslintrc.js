@@ -1,5 +1,6 @@
 module.exports = {
   root: true,
+  globals: { 'fetch': false, 'Headers': false },
   extends: 'airbnb-base',
   rules: {
     'semi': ['error', 'never'],
