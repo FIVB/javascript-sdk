@@ -7,6 +7,7 @@
 // TODO : Change Object.assign() to { ...object, xxx } when available in Rollup
 // TODO : See https://github.com/rollup/rollup/issues/1623
 
+import 'isomorphic-fetch'
 import Config from '../Core/Config'
 
 class HttpClient {
@@ -62,7 +63,6 @@ class HttpClient {
           return response.text()
         })
         .then((response) => {
-          console.log(response)
           if (status === false) {
             throw Error(response)
           }
@@ -74,7 +74,6 @@ class HttpClient {
           resolve(true)
         })
         .catch((e) => {
-          console.log(e)
           try {
             reject(JSON.parse(e.message))
           } catch (l) {

@@ -25,11 +25,7 @@ class QueryBuilder {
    * @return  {string}
    */
   $getResourceName () {
-    // if (this.$model.resourceName !== null) {
-    //   return this.$model.resourceName
-    // }
-
-    return this.$model.name
+    return this.$model.$name
   }
 
   /**

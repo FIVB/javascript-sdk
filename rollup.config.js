@@ -9,6 +9,7 @@ import uglify from 'rollup-plugin-uglify'
 import { minify } from 'uglify-es'
 import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
+import json from 'rollup-plugin-json'
 
 import pkg from './package.json'
 
@@ -21,6 +22,7 @@ export default [
     ],
 
     plugins: [
+      json(),
       buble({
         exclude: ['node_modules/**'],
       }),
@@ -36,6 +38,7 @@ export default [
       { file: pkg.module, format: 'es' },
     ],
     plugins: [
+      json(),
       resolve(),
       commonjs(),
       buble({

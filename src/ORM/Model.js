@@ -26,17 +26,8 @@ class Model {
    * @param  {Object}  attributes  - Attributes to set
    */
   constructor (attributes) {
-    const atr = attributes
-
-    // if (this.constructor.isXml === true) {
-    //   Object.keys(atr).forEach((key) => {
-    //     atr[`${key.charAt(0).toLowerCase()}${key.slice(1)}`] = atr[key]
-    //     delete atr[key]
-    //   })
-    // }
-
-    this.$original = atr
-    this.$attributes = atr
+    this.$original = attributes
+    this.$attributes = attributes
   }
 
   /**
