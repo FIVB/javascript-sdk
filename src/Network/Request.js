@@ -54,20 +54,17 @@ class Request {
   }
 
   /**
-   * Adds multiple filters to the request.
+   * Sets multiple filters to the request.
    *
    * @param  {Object[]}  filters  - Filters to add to the request
    */
-  addFilters (filters) {
-    filters.forEach(filter => this.addFilter(filter))
+  setFilters (filters) {
+    this.$filters = filters
+    // filters.forEach(filter => this.addFilter(filter))
   }
 
-  addRelations (relations) {
-    relations.forEach(relation => this.addRelation(relation))
-  }
-
-  addRelation ({ name, fields }) {
-    this.$relations.set(name, fields)
+  setRelations (relations) {
+    this.$relations = relations
   }
 
   /**

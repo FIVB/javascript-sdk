@@ -5,6 +5,7 @@
  */
 
 import Model from '../ORM/Model'
+import Player from '../Player/Player'
 
 class VolleyTransfer extends Model {
   /**
@@ -17,6 +18,12 @@ class VolleyTransfer extends Model {
    */
   static get $name () {
     return 'VolleyTransfer'
+  }
+
+  static get $relations () {
+    return {
+      player: Player,
+    }
   }
 }
 

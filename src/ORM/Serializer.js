@@ -27,6 +27,11 @@ class Serializer {
     return modelInstance.toObject()
   }
 
+  static $getRowJSONIndexed (key, modelInstance) {
+    const json = Serializer.$getRowJSON(modelInstance)
+    return ({ [json[key]]: json }) // See https://gitlab.com/Rich-Harris/buble/issues/182
+  }
+
   /**
    * Add row to the list of rows. Make sure the row
    * is an instance of the same model as the other
@@ -65,6 +70,14 @@ class Serializer {
    */
   size () {
     return this.isOne ? 1 : this.rows.length
+  }
+
+  toJSONIndexed (key = 'no') {
+    if (this.isOne) {
+      return Serializer.$getRowJSONIndexed(key, this.rows)
+    }
+
+    return this.rows.map(row => Serializer.$getRowJSONIndexed(key, row))
   }
 
   /**

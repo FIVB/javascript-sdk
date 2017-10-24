@@ -7,6 +7,9 @@
 import Serializer from './Serializer'
 import QueryBuilder from './QueryBuilder'
 
+// TODO: Switch find method to accept as first argument the key
+// TODO: Define relation with `.with(name, options)` instead of inside find/all method
+
 class Model {
   /**
    * The serializer to be used for serializing
@@ -23,10 +26,22 @@ class Model {
    * Constructor.
    *
    * @constructor
-   * @param  {Object}  attributes  - Attributes to set
+   * @param  {Array<Object>}  attributes  - Attributes to set
    */
-  constructor (attributes) {
-    this.$original = attributes
+  constructor (attributes = []) {
+    this.$fill(attributes)
+    this.$syncOriginal()
+  }
+
+  /**
+   * Fills the attributes with the given one.
+   *
+   * @private
+   * @param  {Array<Object>}  attributes  - Attributes to set
+   *
+   * @return {void}
+   */
+  $fill (attributes) {
     this.$attributes = attributes
   }
 
@@ -57,21 +72,28 @@ class Model {
   /**
    * Returns all records for a given model.
    *
-   * @param  {string[]}     param.fields   - Specific fields to retrieve
-   * @param  {number|null}  param.version  - Version to use for the query
+   * @param  {string[]}     fields   - Specific fields to retrieve
+   * @param  {number|null}  version  - Version to use for the query
    *
-   * @return {Promise}
+   * @return {Promise<Model[]>}
    */
-  static all (params) {
-    return this.query().fetch(params)
-  }
-
-  static find (params) {
-    return this.query().find(params)
+  static all (fields, version) {
+    return this.query().fetch(fields, version)
   }
 
   /**
+   * Returns a record for given paramters.
    *
+   * @param  {number}       key     - Specific key to search for
+   * @param  {string[]}     fields  - Specific fields to retrieve
+   *
+   * @return {Promise<Model>}
+   */
+  static find (key, fields) {
+    return this.query().find(key, fields)
+  }
+
+  /**
    *
    * @return {Object}
    */

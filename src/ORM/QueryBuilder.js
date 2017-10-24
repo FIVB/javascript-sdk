@@ -4,6 +4,7 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
+import Resetable from 'resetable'
 import Request from '../Network/Request'
 import HttpClient from '../Network/HttpClient'
 
@@ -16,7 +17,8 @@ class QueryBuilder {
    */
   constructor (model) {
     this.$model = model
-    this.$filters = new Map()
+    this.$filters = new Resetable(new Map())
+    this.$relations = new Resetable(new Map())
   }
 
   /**
@@ -42,8 +44,45 @@ class QueryBuilder {
     return rows.map(row => this.$mapRowToInstance(row))
   }
 
-  // eslint-disable-next-line object-curly-newline
-  find ({ key, fields, relations, version }) {
+  /**
+   * Add a relation to the query.
+   *
+   * @param  {string}         name    - Name of the relation
+   * @param  {Array<string>}  fields  - Specific fields to retrieve
+   *
+   * @return {this}
+   */
+  with (name, fields) {
+    const relations = this.$relations.get()
+    relations.set(name, fields)
+
+    return this
+  }
+
+  /**
+   * Filters your request with given parameters.
+   *
+   * @param  {string}  name  - Name of the filter
+   * @param  {string}  value - Value of the filter
+   *
+   * @return {this}
+   */
+  filterBy (name, value) {
+    const filters = this.$filters.get()
+    filters.set(name, value)
+
+    return this
+  }
+
+  /**
+   * Returns a record for given parameters.
+   *
+   * @param  {number}       key            - Specific key to search for
+   * @param  {string[]}     fields  - Specific fields to retrieve
+   *
+   * @return {Promise<Model>}
+   */
+  find (key, fields) {
     const client = new HttpClient()
     const request = new Request({ type: `Get${this.$getResourceName()}` })
 
@@ -53,18 +92,12 @@ class QueryBuilder {
       request.setAttribute({ name: 'Fields', value: fields.join(' ') })
     }
 
-    if (version !== void 0) {
-      request.setAttribute({ name: 'Version', value: version })
-    }
-
-    if (relations !== void 0) {
-      request.addRelations(relations)
+    if (this.$relations.get().size > 0) {
+      request.setRelations(this.$relations.pull())
     }
 
     return new Promise((resolve, reject) => {
-      client.send({
-        body: request.toString({ wrapped: this.$model.isXml }),
-      })
+      client.send({ body: request.toString() })
         .then((response) => {
           const row = JSON.parse(response).data
           const modelInstance = this.$mapRowToInstance(row)
@@ -79,35 +112,28 @@ class QueryBuilder {
   /**
    * Fetches the resource.
    *
-   * @param  {string[]}     param.fields   - Specific fields to retrieve
-   * @param  {number|null}  param.version  - Version to use for the query
+   * @param  {string[]}     fields   - Specific fields to retrieve
+   * @param  {number|null}  version  - Version to use for the query
    *
-   * @return {Promise}
+   * @return {Promise<Model[]>}
    */
-  fetch ({ fields, relations, version }) {
+  fetch (fields = ['No'], version = 0) {
     const client = new HttpClient()
     const request = new Request({ type: `Get${this.$getResourceName()}List` })
 
-    if (fields !== void 0) {
-      request.setAttribute({ name: 'Fields', value: fields.join(' ') })
+    request.setAttribute({ name: 'Fields', value: fields.join(' ') })
+    request.setAttribute({ name: 'Version', value: version })
+
+    if (this.$relations.get().size > 0) {
+      request.setRelations(this.$relations.pull())
     }
 
-    if (version !== void 0) {
-      request.setAttribute({ name: 'Version', value: version })
-    }
-
-    if (relations !== void 0) {
-      request.addRelations(relations)
-    }
-
-    if (this.$filters.size > 0) {
-      // ...
+    if (this.$filters.get().size > 0) {
+      request.setFilters(this.$filters.pull())
     }
 
     return new Promise((resolve, reject) => {
-      client.send({
-        body: request.toString({ wrapped: this.$model.isXml }),
-      })
+      client.send({ body: request.toString() })
         .then((response) => {
           const rows = JSON.parse(response).data
           const modelInstances = this.$mapRowsToInstances(rows)
