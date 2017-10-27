@@ -36,15 +36,33 @@ class Auth {
     })
   }
 
+  static logout (accessToken) {
+    const client = new HttpClient()
+    const request = new Request({ type: 'LogOut' })
+
+    return new Promise((resolve, reject) => {
+      client.send({
+        body: request.toString(),
+        headers: [
+          { name: 'Authorization', value: `Bearer ${accessToken}` },
+        ],
+      })
+        .then((response) => {
+          resolve(JSON.parse(response).data)
+        })
+        .catch(e => reject(e))
+    })
+  }
+
   /**
    * Validates the given accessToken.
    *
    * @static
-   * @param  {string}  param.accessToken  - Token to use for the validation
+   * @param  {string}  accessToken  - Token to use for the validation
    *
    * @return {Promise}
    */
-  static validateSession ({ accessToken }) {
+  static validateToken (accessToken) {
     const client = new HttpClient()
     const request = new Request({ type: 'CheckJsonWebToken' })
 
@@ -64,11 +82,11 @@ class Auth {
    * Retrieves a new accessToken with the given refreshToken.
    *
    * @static
-   * @param  {string}  param.refreshToken  - Token to use to refresh
+   * @param  {string}  refreshToken  - Token to use to refresh
    *
    * @return {Promise}
    */
-  static refreshSession ({ refreshToken }) {
+  static refreshToken (refreshToken) {
     const client = new HttpClient()
     const request = new Request({ type: 'GetJsonWebToken' })
 

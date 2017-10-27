@@ -1,5 +1,5 @@
 /**
- * fivb-sdk 23 24 | 29
+ * fivb-sdk
  * @license MIT
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */

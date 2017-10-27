@@ -10,9 +10,10 @@ class Serializer {
    *
    * @constructor
    */
-  constructor (rows, isOne = false) {
-    this.rows = rows
-    this.isOne = isOne
+  constructor (rows, meta = {}, isOne = false) {
+    this.$rows = rows
+    this.$meta = meta
+    this.$isOne = isOne
   }
 
   /**
@@ -42,7 +43,7 @@ class Serializer {
    * @param  {Model}  row  - JSON row
    */
   addRow (row) {
-    this.rows.push(row)
+    this.$rows.push(row)
   }
 
   /**
@@ -51,7 +52,7 @@ class Serializer {
    * @return {Model}
    */
   first () {
-    return this.rows[0]
+    return this.$rows[0]
   }
 
   /**
@@ -60,7 +61,7 @@ class Serializer {
    * @return {Model}
    */
   last () {
-    return this.rows[this.rows.length - 1]
+    return this.$rows[this.$rows.length - 1]
   }
 
   /**
@@ -69,15 +70,19 @@ class Serializer {
    * @return {Number}
    */
   size () {
-    return this.isOne ? 1 : this.rows.length
+    return this.$isOne ? 1 : this.$rows.length
+  }
+
+  getMetadata () {
+    return this.$meta
   }
 
   toJSONIndexed (key = 'no') {
     if (this.isOne) {
-      return Serializer.$getRowJSONIndexed(key, this.rows)
+      return Serializer.$getRowJSONIndexed(key, this.$rows)
     }
 
-    return this.rows.map(row => Serializer.$getRowJSONIndexed(key, row))
+    return this.$rows.map(row => Serializer.$getRowJSONIndexed(key, row))
   }
 
   /**
@@ -87,11 +92,11 @@ class Serializer {
    * @return {Array|Object}
    */
   toJSON () {
-    if (this.isOne) {
-      return Serializer.$getRowJSON(this.rows)
+    if (this.$isOne) {
+      return Serializer.$getRowJSON(this.$rows)
     }
 
-    return this.rows.map(Serializer.$getRowJSON.bind(this))
+    return this.$rows.map(Serializer.$getRowJSON.bind(this))
   }
 }
 

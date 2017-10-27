@@ -101,7 +101,7 @@ class QueryBuilder {
         .then((response) => {
           const row = JSON.parse(response).data
           const modelInstance = this.$mapRowToInstance(row)
-          resolve(new this.$model.Serializer(modelInstance, true))
+          resolve(new this.$model.Serializer(modelInstance, {}, true))
         })
         .catch((e) => {
           reject(e)
@@ -117,12 +117,12 @@ class QueryBuilder {
    *
    * @return {Promise<Model[]>}
    */
-  fetch (fields = ['No'], version = 0) {
+  fetch (fields = ['No'], ver = 0) {
     const client = new HttpClient()
     const request = new Request({ type: `Get${this.$getResourceName()}List` })
 
     request.setAttribute({ name: 'Fields', value: fields.join(' ') })
-    request.setAttribute({ name: 'Version', value: version })
+    request.setAttribute({ name: 'Version', value: ver })
 
     if (this.$relations.get().size > 0) {
       request.setRelations(this.$relations.pull())
@@ -135,9 +135,9 @@ class QueryBuilder {
     return new Promise((resolve, reject) => {
       client.send({ body: request.toString() })
         .then((response) => {
-          const rows = JSON.parse(response).data
-          const modelInstances = this.$mapRowsToInstances(rows)
-          resolve(new this.$model.Serializer(modelInstances))
+          const { data, nbItems, version } = JSON.parse(response)
+          const modelInstances = this.$mapRowsToInstances(data)
+          resolve(new this.$model.Serializer(modelInstances, { nbItems, version }))
         })
         .catch((e) => {
           reject(e)
