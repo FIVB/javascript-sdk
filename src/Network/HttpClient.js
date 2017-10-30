@@ -24,6 +24,10 @@ class HttpClient {
       'X-FIVB-App-ID': Config.appId,
     })
 
+    if (Config.accessToken !== null) {
+      headers.append('Authorization', `Bearer ${Config.accessToken}`)
+    }
+
     this.$options = Object.assign({}, options, {
       headers,
       method: 'POST',
