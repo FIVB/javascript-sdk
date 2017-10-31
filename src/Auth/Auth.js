@@ -4,6 +4,7 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
+import User from '../User/User'
 import Request from '../Network/Request'
 import HttpClient from '../Network/HttpClient'
 
@@ -16,7 +17,7 @@ class Auth {
    * @param  {string}  param.username  - Username of the user
    * @param  {string}  param.password  - Password of the user
    *
-   * @return {Promise}
+   * @return {Promise<Object>}
    */
   static attempt ({ username, password }) {
     const client = new HttpClient()
@@ -36,6 +37,14 @@ class Auth {
     })
   }
 
+  /**
+   * Logout the user.
+   *
+   * @static
+   * @param  {string}  accessToken  - Access token of the user to disconnect.
+   *
+   * @return {Promise<Object>}
+   */
   static logout (accessToken) {
     const client = new HttpClient()
     const request = new Request({ type: 'LogOut' })
@@ -60,7 +69,7 @@ class Auth {
    * @static
    * @param  {string}  accessToken  - Token to use for the validation
    *
-   * @return {Promise}
+   * @return {Promise<Boolean>}
    */
   static validateToken (accessToken) {
     const client = new HttpClient()
@@ -84,7 +93,7 @@ class Auth {
    * @static
    * @param  {string}  refreshToken  - Token to use to refresh
    *
-   * @return {Promise}
+   * @return {Promise<Object>}
    */
   static refreshToken (refreshToken) {
     const client = new HttpClient()
@@ -95,6 +104,28 @@ class Auth {
     return new Promise((resolve, reject) => {
       client.send({ body: request.toString() })
         .then(response => resolve(JSON.parse(response).data))
+        .catch(e => reject(e))
+    })
+  }
+
+  /**
+   * Get the current logged in User.
+   *
+   * @static
+   *
+   * @return {Promise<User>}
+   */
+  static getUser () {
+    const client = new HttpClient()
+    const request = new Request({ type: 'GetUser' })
+
+    return new Promise((resolve, reject) => {
+      client.send({ body: request.toString() })
+        .then((response) => {
+          const user = new User(JSON.parse(response).data)
+
+          resolve(new User.Serializer(user, {}, true))
+        })
         .catch(e => reject(e))
     })
   }

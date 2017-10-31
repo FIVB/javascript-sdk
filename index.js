@@ -1,4 +1,4 @@
-const { VolleyTransfer, Config } = require('./dist/sdk.cjs')
+const { Auth, User, VolleyTransfer, Config } = require('./dist/sdk.cjs')
 
 Config.use({
   hostname: 'http://ordinasoft.ddns.net',
@@ -6,28 +6,49 @@ Config.use({
   debug: true,
 })
 
-VolleyTransfer.all({ fields: ['No'] })
-  .then(console.log)
-  .catch(console.log)
 
-// BeachTeam.all({
-//   fields: ['No', 'Version'],
-//   relations: [
-//     { name: 'Player1', fields: ['No', 'FirstName'] },
-//     { name: 'Player2', fields: ['No', 'FirstName'] },
-//   ],
-//   version: 100000,
-// })
-//   .then(data => console.log('index', data.toJSON()))
-//   .catch(e => console.log('index', e))
+// VolleyTransfer
+//   .query()
+//   .with('Player', ['No'])
+//   .find(53499, ['No'])
+//   .then((transfer) => {
+//     console.log(transfer.toJSONIndexed())
+//   })
+
+// VolleyTransfer
+//   .query()
+//   .filterBy('Season', '2017/18')
+//   .with('Player', ['No'])
+//   .fetch(['No'])
+//   .then((transfer) => {
+//     console.log(transfer.toJSONIndexed())
+//   })
+
+// BeachTeam
+//   .all(['No'])
+//   .then((teams) => {
+//     console.log(teams.getMetadata())
+//   })
+
+// BeachTeam.query()
+//   .with('Player1', ['No'])
+//   .fetch(['No', 'Version'])
+//   .then((teams) => {
+//     console.log(teams.toJSONIndexed())
+//   })
 
 // Player.all({ fields: ['No', 'FirstName', 'LastName'] })
 //   .then()
 //   .catch(console.log)
 
-// Auth.attempt({ username: 'romain.lanz', password: 'simplex' })
-//   .then(data => console.log(data))
-//   .catch(e => console.log(e))
+Auth.attempt({ username: 'romain.lanz', password: 'simplex' })
+  .then(data => {
+    console.log(data)
+    Config.accessToken = data.accessToken
+    Auth.getUser()
+      .then(console.log)
+      .catch(console.log)
+  })
 
 // Auth.validateSession({
 //     accessToken: ''
