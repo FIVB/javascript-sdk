@@ -7,7 +7,7 @@
 // TODO : Change Object.assign() to { ...object, xxx } when available in Rollup
 // TODO : See https://github.com/rollup/rollup/issues/1623
 
-import 'isomorphic-fetch'
+import fetch from 'isomorphic-unfetch'
 import Config from '../Core/Config'
 
 class HttpClient {
@@ -18,14 +18,14 @@ class HttpClient {
    * @param  {Object}  options  - Options to use for the request
    */
   constructor (options = {}) {
-    const headers = new Headers({
+    const headers = {
       Accept: 'application/json',
       'Content-Type': 'application/xml',
       'X-FIVB-App-ID': Config.appId,
-    })
+    }
 
     if (Config.accessToken !== null) {
-      headers.append('Authorization', `Bearer ${Config.accessToken}`)
+      headers.Authorization = `Bearer ${Config.accessToken}`
     }
 
     this.$options = Object.assign({}, options, {
@@ -48,12 +48,11 @@ class HttpClient {
     const usedOptions = this.$options
 
     if (headers !== void 0) {
-      headers.forEach((header) => {
-        usedOptions.headers.set(header.name, header.value)
-      })
+      usedOptions.headers = Object.assign(usedOptions.headers, headers)
     }
 
     if (Config.debug) {
+      // eslint-disable-next-line no-console
       console.info(`[REQUEST] - ${body}`)
     }
 

@@ -10,17 +10,14 @@ import { minify } from 'uglify-es'
 import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 import json from 'rollup-plugin-json'
-
 import pkg from './package.json'
 
 export default [
   {
     input: 'src/index.js',
-
     output: [
       { file: 'dist/sdk.umd.js', format: 'umd', name: 'Fivb' },
     ],
-
     plugins: [
       json(),
       buble({
@@ -30,6 +27,8 @@ export default [
       commonjs(),
       uglify({}, minify),
     ],
+    globals: { 'node-fetch': 'fetch' },
+    external: ['node-fetch'],
   },
   {
     input: 'src/index.js',
@@ -39,11 +38,12 @@ export default [
     ],
     plugins: [
       json(),
-      resolve(),
       commonjs(),
       buble({
         exclude: ['node_modules/**'],
+        modules: false,
       }),
     ],
+    external: ['isomorphic-unfetch', 'resetable'],
   },
 ]
