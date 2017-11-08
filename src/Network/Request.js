@@ -9,10 +9,13 @@ class Request {
    * Constructor.
    *
    * @constructor
-   * @param  {string}    param.type  - Type of the request
+   * @param  {string}    param.type     - Type of the request
+   * @param  {boolean}   param.wrapped  - Defines if the request should be wrapped
+   *                                     with <Requests></Requests>
    */
-  constructor ({ type }) {
+  constructor ({ type, wrapped } = { wrapped: false }) {
     this.$type = type
+    this.$wrapped = wrapped
     this.$filters = new Map()
     this.$relations = new Map()
     this.$attributes = new Map()
@@ -70,12 +73,9 @@ class Request {
   /**
    * Computes the request.
    *
-   * @param  {boolean}  param.wrapped  - Defines if the request should be wrapped
-   *                                     with <Requests></Requests>
-   *
    * @return  {String}
    */
-  toString ({ wrapped } = { wrapped: false }) {
+  toString () {
     let request = `<Request Type="${this.$type}"${this.$attributes.size > 0 ? ' ' : ''}${Array.from(this.$attributes).map(([key, value]) => `${key}="${value}"`).join(' ').trim()}>`
 
     if (this.$filters.size > 0) {
@@ -88,7 +88,7 @@ class Request {
 
     request += '</Request>'
 
-    if (wrapped === true) {
+    if (this.$wrapped === true) {
       return `<Requests>${request}</Requests>`
     }
 
