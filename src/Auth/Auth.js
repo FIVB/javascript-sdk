@@ -45,17 +45,12 @@ class Auth {
    *
    * @return {Promise<Object>}
    */
-  static logout (accessToken) {
+  static logout () {
     const client = new HttpClient()
     const request = new Request({ type: 'LogOut' })
 
     return new Promise((resolve, reject) => {
-      client.send({
-        body: request.toString(),
-        headers: [
-          { name: 'Authorization', value: `Bearer ${accessToken}` },
-        ],
-      })
+      client.send({ body: request.toString() })
         .then((response) => {
           resolve(JSON.parse(response).data)
         })
@@ -78,9 +73,9 @@ class Auth {
     return new Promise((resolve, reject) => {
       client.send({
         body: request.toString(),
-        headers: [
-          { name: 'Authorization', value: `Bearer ${accessToken}` },
-        ],
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
         .then(response => resolve(response))
         .catch(e => reject(e))

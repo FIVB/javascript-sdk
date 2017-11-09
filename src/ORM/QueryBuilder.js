@@ -47,8 +47,8 @@ class QueryBuilder {
   /**
    * Add a relation to the query.
    *
-   * @param  {string}         name    - Name of the relation
-   * @param  {Array<string>}  fields  - Specific fields to retrieve
+   * @param  {string}    name    - Name of the relation
+   * @param  {string[]}  fields  - Specific fields to retrieve
    *
    * @return {this}
    */
@@ -62,8 +62,8 @@ class QueryBuilder {
   /**
    * Filters your request with given parameters.
    *
-   * @param  {string}  name  - Name of the filter
-   * @param  {string}  value - Value of the filter
+   * @param  {string}  name   - Name of the filter
+   * @param  {string}  value  - Value of the filter
    *
    * @return {this}
    */
@@ -77,8 +77,8 @@ class QueryBuilder {
   /**
    * Returns a record for given parameters.
    *
-   * @param  {number}       key            - Specific key to search for
-   * @param  {string[]}     fields  - Specific fields to retrieve
+   * @param  {number}    key     - Specific key to search for
+   * @param  {string[]}  fields  - Specific fields to retrieve
    *
    * @return {Promise<Model>}
    */
@@ -86,10 +86,10 @@ class QueryBuilder {
     const client = new HttpClient()
     const request = new Request({ type: `Get${this.$getResourceName()}` })
 
-    request.setAttribute({ name: 'No', value: key })
+    request.addAttribute('No', key)
 
     if (fields !== void 0) {
-      request.setAttribute({ name: 'Fields', value: fields.join(' ') })
+      request.addAttribute('Fields', fields.join(' '))
     }
 
     if (this.$relations.get().size > 0) {
@@ -121,15 +121,21 @@ class QueryBuilder {
     const client = new HttpClient()
     const request = new Request({ type: `Get${this.$getResourceName()}List` })
 
-    request.setAttribute({ name: 'Fields', value: fields.join(' ') })
-    request.setAttribute({ name: 'Version', value: ver })
+    request.addAttribute('Fields', fields.join(' '))
+    if (ver !== 0) {
+      request.addAttribute('Version', ver)
+    }
 
     if (this.$relations.get().size > 0) {
-      request.setRelations(this.$relations.pull())
+      Array.from(this.$relations.pull()).forEach(([name, f]) => {
+        request.addRelation(name, f)
+      })
     }
 
     if (this.$filters.get().size > 0) {
-      request.setFilters(this.$filters.pull())
+      Array.from(this.$filters.pull()).forEach(([name, value]) => {
+        request.addFilter(name, value)
+      })
     }
 
     return new Promise((resolve, reject) => {

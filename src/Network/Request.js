@@ -11,9 +11,9 @@ class Request {
    * @constructor
    * @param  {string}    param.type     - Type of the request
    * @param  {boolean}   param.wrapped  - Defines if the request should be wrapped
-   *                                     with <Requests></Requests>
+   *                                      with <Requests></Requests>
    */
-  constructor ({ type, wrapped } = { wrapped: false }) {
+  constructor ({ type, wrapped = false }) {
     this.$type = type
     this.$wrapped = wrapped
     this.$filters = new Map()
@@ -22,68 +22,87 @@ class Request {
   }
 
   /**
-   * Sets an attribute in the request.
+   * Adds an attribute in the request.
    *
-   * @param  {string}         param.name   - Name of the attribute
-   * @param  {string|number}  param.value  - Value of the attribute
+   * @param  {string}         name   - Name of the attribute
+   * @param  {string|number}  value  - Value of the attribute
    *
-   * @return {void}
+   * @return {this}
    */
-  setAttribute ({ name, value }) {
+  addAttribute (name, value) {
     this.$attributes.set(name, value)
+
+    return this
   }
 
   /**
-   * Sets multiple attributes in the request.
+   * Adds multiple attributes in the request.
    *
    * @param  {Object[]}  attributes  - Attributes to set in the request
    *
-   * @return {void}
+   * @return {this}
    */
-  setAttributes (attributes) {
-    attributes.forEach(attribute => this.setAttribute(attribute))
+  addAttributes (attributes) {
+    Object.keys(attributes).forEach(name => this.addAttribute(name, attributes[name]))
+
+    return this
   }
 
   /**
    * Adds a filter to the request.
    *
-   * @param  {string}         param.name   - Name of the filter
-   * @param  {string|number}  param.value  - Value of the filter
+   * @param  {string}         name   - Name of the filter
+   * @param  {string|number}  value  - Value of the filter
    *
-   * @return {void}
+   * @return {this}
    */
-  addFilter ({ name, value }) {
+  addFilter (name, value) {
     this.$filters.set(name, value)
+
+    return this
   }
 
   /**
-   * Sets multiple filters to the request.
+   * Adds multiple filters to the request.
    *
    * @param  {Object[]}  filters  - Filters to add to the request
+   *
+   * @return {this}
    */
-  setFilters (filters) {
-    this.$filters = filters
-    // filters.forEach(filter => this.addFilter(filter))
+  addFilters (filters) {
+    Object.keys(filters).forEach(name => this.addFilter(name, filters[name]))
+
+    return this
   }
 
-  setRelations (relations) {
-    this.$relations = relations
+  /**
+   * Adds a relation to the request.
+   *
+   * @param  {string}    name    - Name of the relation
+   * @param  {string[]}  fields  - Fields to get
+   *
+   * @return {this}
+   */
+  addRelation (name, fields) {
+    this.$relations.set(name, fields)
+
+    return this
   }
 
   /**
    * Computes the request.
    *
-   * @return  {String}
+   * @return  {string}
    */
   toString () {
     let request = `<Request Type="${this.$type}"${this.$attributes.size > 0 ? ' ' : ''}${Array.from(this.$attributes).map(([key, value]) => `${key}="${value}"`).join(' ').trim()}>`
 
     if (this.$filters.size > 0) {
-      request += `<Filter ${Array.from(this.$filters).map(([key, value]) => `${key}="${value}"`).join(' ').trim()} />`
+      request += `<Filter ${Array.from(this.$filters).map(([key, value]) => `${key}="${value}"`).join(' ').trim()}/>`
     }
 
     if (this.$relations.size > 0) {
-      request += Array.from(this.$relations).map(([key, value]) => `<Relation Name="${key}" Fields="${value.join(' ')}" />`).join(' ')
+      request += Array.from(this.$relations).map(([key, value]) => `<Relation Name="${key}" Fields="${value.join(' ')}"/>`).join(' ')
     }
 
     request += '</Request>'
