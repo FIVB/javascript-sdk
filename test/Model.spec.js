@@ -24,6 +24,63 @@ test.group('Model', (group) => {
     HttpClient.prototype.send.restore()
   })
 
+  test('should be able to be instantiated without any attributes', (assert) => {
+    const model = new TestModel()
+
+    assert.deepEqual(model.$attributes, {})
+    assert.deepEqual(model.$original, {})
+  })
+
+  test('should sync attributes when instantiated', (assert) => {
+    const model = new TestModel({ name: 'Romain Lanz' })
+
+    assert.equal(model.$attributes.name, 'Romain Lanz')
+    assert.equal(model.$original.name, 'Romain Lanz')
+  })
+
+  test('should fill the attributes', (assert) => {
+    const model = new TestModel({ name: 'Romain Lanz' })
+
+    model.fill({ name: 'FIVB' })
+
+    assert.equal(model.$attributes.name, 'FIVB')
+    assert.equal(model.$original.name, 'Romain Lanz')
+  })
+
+  test('should sync the attributes with originals when requested', (assert) => {
+    const model = new TestModel({ name: 'Romain Lanz' })
+
+    model.fill({ name: 'FIVB' })
+    model.$syncOriginal()
+
+    assert.equal(model.$attributes.name, 'FIVB')
+    assert.equal(model.$original.name, 'FIVB')
+  })
+
+  test('should returns the attributes', (assert) => {
+    const model = new TestModel({ name: 'Romain Lanz' })
+
+    assert.deepEqual(model.toObject(), { name: 'Romain Lanz' })
+  })
+
+  test('should returns the attributes serialized', (assert) => {
+    const model = new TestModel({ name: 'Romain Lanz' })
+
+    assert.deepEqual(model.toJSON(), { name: 'Romain Lanz' })
+  })
+
+  test('should be able to return an instance of the querybuilder', (assert) => {
+    const query = TestModel.query()
+
+    assert.equal(query.constructor.name, 'QueryBuilder')
+  })
+
+  test('should be able to return an instance of the Serializer', (assert) => {
+    const serializer = TestModel.Serializer
+
+    assert.equal(serializer.name, 'Serializer')
+  })
+
   test('should generate the query to get one model', (assert) => {
     TestModel.find(1)
 

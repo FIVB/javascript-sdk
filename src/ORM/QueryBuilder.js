@@ -93,7 +93,9 @@ class QueryBuilder {
     }
 
     if (this.$relations.get().size > 0) {
-      request.setRelations(this.$relations.pull())
+      Array.from(this.$relations.pull()).forEach(([name, f]) => {
+        request.addRelation(name, f)
+      })
     }
 
     return new Promise((resolve, reject) => {
@@ -122,6 +124,7 @@ class QueryBuilder {
     const request = new Request({ type: `Get${this.$getResourceName()}List` })
 
     request.addAttribute('Fields', fields.join(' '))
+
     if (ver !== 0) {
       request.addAttribute('Version', ver)
     }

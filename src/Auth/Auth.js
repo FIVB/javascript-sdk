@@ -23,10 +23,10 @@ class Auth {
     const client = new HttpClient()
     const request = new Request({ type: 'GetJsonWebToken' })
 
-    request.setAttributes([
-      { name: 'Username', value: username },
-      { name: 'Password', value: password },
-    ])
+    request.addAttributes({
+      Username: username,
+      Password: password,
+    })
 
     return new Promise((resolve, reject) => {
       client.send({ body: request.toString() })
@@ -94,7 +94,7 @@ class Auth {
     const client = new HttpClient()
     const request = new Request({ type: 'GetJsonWebToken' })
 
-    request.setAttribute({ name: 'RefreshToken', value: refreshToken })
+    request.addAttribute('RefreshToken', refreshToken)
 
     return new Promise((resolve, reject) => {
       client.send({ body: request.toString() })

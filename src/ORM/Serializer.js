@@ -78,7 +78,7 @@ class Serializer {
   }
 
   toJSONIndexed (key = 'no') {
-    if (this.isOne) {
+    if (this.$isOne) {
       return Serializer.$getRowJSONIndexed(key, this.$rows)
     }
 

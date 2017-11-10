@@ -26,22 +26,21 @@ class Model {
    * Constructor.
    *
    * @constructor
-   * @param  {Array<Object>}  attributes  - Attributes to set
+   * @param  {Object}  attributes  - Attributes to set
    */
-  constructor (attributes = []) {
-    this.$fill(attributes)
+  constructor (attributes = {}) {
+    this.fill(attributes)
     this.$syncOriginal()
   }
 
   /**
    * Fills the attributes with the given one.
    *
-   * @private
-   * @param  {Array<Object>}  attributes  - Attributes to set
+   * @param  {Object}  attributes  - Attributes to set
    *
    * @return {void}
    */
-  $fill (attributes) {
+  fill (attributes) {
     this.$attributes = attributes
   }
 
@@ -50,12 +49,10 @@ class Model {
    *
    * @private
    *
-   * @return {this}
+   * @return {void}
    */
   $syncOriginal () {
     this.$original = this.$attributes
-
-    return this
   }
 
   /**
@@ -108,7 +105,7 @@ class Model {
    * @return {Object}
    */
   toJSON () {
-    return new this.constructor.Serializer(this, true).toJSON()
+    return new this.constructor.Serializer(this, {}, true).toJSON()
   }
 }
 
