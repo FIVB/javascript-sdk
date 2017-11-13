@@ -6,7 +6,7 @@
 
 let $config = {
   appId: null,
-  debug: null,
+  debug: false,
   accessToken: null,
   hostname: 'https://www.fivb.org',
 }
