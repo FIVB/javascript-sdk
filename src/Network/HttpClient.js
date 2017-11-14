@@ -7,7 +7,7 @@
 // TODO : Change Object.assign() to { ...object, xxx } when available in Rollup
 // TODO : See https://github.com/rollup/rollup/issues/1623
 
-import fetch from 'isomorphic-unfetch'
+import 'isomorphic-unfetch'
 import Config from '../Core/Config'
 
 class HttpClient {
@@ -39,8 +39,8 @@ class HttpClient {
   /**
    * Sends the given request to the webservice.
    *
-   * @param  {string}         param.body     - Request to send
-   * @param  {Object[]|null}  param.headers  - Configuration for this request
+   * @param  {string}              param.body     - Request to send
+   * @param  {Object[]|undefined}  param.headers  - Configuration for this request
    *
    * @return Promise
    */

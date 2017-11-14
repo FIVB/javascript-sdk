@@ -23,6 +23,7 @@
     "eslint": "^4.10.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
+    "fetch-mock": "^5.13.1",
     "japa": "^1.0.5",
     "japa-cli": "^1.0.1",
     "nyc": "^11.3.0",

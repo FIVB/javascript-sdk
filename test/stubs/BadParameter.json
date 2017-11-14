@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "code": "BadParameter",
+      "detail": "Type",
+      "id": "1002",
+      "status": "400"
+    }
+  ]
+}
