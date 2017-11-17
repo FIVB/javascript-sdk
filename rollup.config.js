@@ -38,11 +38,11 @@ export default [
     ],
     plugins: [
       json(),
-      commonjs(),
       buble({
         exclude: ['node_modules/**'],
         modules: false,
       }),
+      commonjs(),
     ],
     external: ['isomorphic-unfetch', 'resetable'],
   },
