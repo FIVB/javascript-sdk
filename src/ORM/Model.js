@@ -7,9 +7,6 @@
 import Serializer from './Serializer'
 import QueryBuilder from './QueryBuilder'
 
-// TODO: Switch find method to accept as first argument the key
-// TODO: Define relation with `.with(name, options)` instead of inside find/all method
-
 class Model {
   /**
    * The serializer to be used for serializing
