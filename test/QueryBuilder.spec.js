@@ -63,12 +63,28 @@ test.group('QueryBuilder', (group) => {
     assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModelList" Fields="No"><Filter Test="Testing" Test2="Testing2"/><Relation Name="Test" Fields="No"/></Request>')
   })
 
+  test('should generate the query with given relations without any fields on fetch', (assert) => {
+    query
+      .with('Test')
+      .fetch()
+
+    assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModelList" Fields="No"><Relation Name="Test"/></Request>')
+  })
+
   test('should generate the query with given relations on find', (assert) => {
     query
       .with('Test', ['No'])
       .find(1)
 
     assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModel" No="1"><Relation Name="Test" Fields="No"/></Request>')
+  })
+
+  test('should generate the query with given relations without any fields on find', (assert) => {
+    query
+      .with('Test')
+      .find(1)
+
+    assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModel" No="1"><Relation Name="Test"/></Request>')
   })
 
   test('should instantiate a Serializer with WS response on fetch', async (assert) => {

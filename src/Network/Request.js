@@ -83,7 +83,7 @@ class Request {
    *
    * @return {this}
    */
-  addRelation (name, fields) {
+  addRelation (name, fields = []) {
     this.$relations.set(name, fields)
 
     return this
@@ -102,7 +102,7 @@ class Request {
     }
 
     if (this.$relations.size > 0) {
-      request += Array.from(this.$relations).map(([key, value]) => `<Relation Name="${key}" Fields="${value.join(' ')}"/>`).join(' ')
+      request += Array.from(this.$relations).map(([key, value]) => `<Relation Name="${key}"${value.length > 0 ? ` Fields="${value.join(' ')}"` : ''}/>`).join(' ')
     }
 
     request += '</Request>'

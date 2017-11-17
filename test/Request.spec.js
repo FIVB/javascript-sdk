@@ -62,4 +62,11 @@ test.group('Request', () => {
 
     assert.equal(request.toString(), '<Request Type="TestingType"><Relation Name="Test" Fields="No"/></Request>')
   })
+
+  test('should be able to add relation without fields', (assert) => {
+    const request = new Request({ type: 'TestingType' })
+    request.addRelation('Test')
+
+    assert.equal(request.toString(), '<Request Type="TestingType"><Relation Name="Test"/></Request>')
+  })
 })
