@@ -47,13 +47,19 @@ class QueryBuilder {
   /**
    * Add a relation to the query.
    *
-   * @param  {string}    name    - Name of the relation
-   * @param  {string[]}  fields  - Specific fields to retrieve
+   * @param  {string}             name      - Name of the relation
+   * @param  {function|string[]}  callback  - Extend the the query
+   * @param  {string[]}           fields    - Specific fields to retrieve
    *
    * @return {this}
    */
-  with (name, fields) {
+  with (name, callback, fields = null) {
     const relations = this.$relations.get()
+
+    if (fields === null) {
+      fields = callback
+    }
+
     relations.set(name, fields)
 
     return this
@@ -82,9 +88,9 @@ class QueryBuilder {
    *
    * @return {Promise<Model>}
    */
-  find (key, fields) {
+  async find (key, fields) {
     const client = new HttpClient()
-    const request = new Request({ type: `Get${this.$getResourceName()}` })
+    const request = new Request(`Get${this.$getResourceName()}`)
 
     request.addAttribute('No', key)
 
@@ -98,17 +104,16 @@ class QueryBuilder {
       })
     }
 
-    return new Promise((resolve, reject) => {
-      client.send({ body: request.toString() })
-        .then((response) => {
-          const row = JSON.parse(response).data
-          const modelInstance = this.$mapRowToInstance(row)
-          resolve(new this.$model.Serializer(modelInstance, {}, true))
-        })
-        .catch((e) => {
-          reject(e)
-        })
-    })
+
+    try {
+      const response = await client.send({ body: request.toString() })
+      const row = JSON.parse(response).data
+      const modelInstance = this.$mapRowToInstance(row)
+
+      return new this.$model.Serializer(modelInstance, {}, true)
+    } catch (e) {
+      throw e
+    }
   }
 
   /**
@@ -119,9 +124,9 @@ class QueryBuilder {
    *
    * @return {Promise<Model[]>}
    */
-  fetch (fields = ['No'], ver = 0) {
+  async fetch (fields = ['No'], ver = 0) {
     const client = new HttpClient()
-    const request = new Request({ type: `Get${this.$getResourceName()}List` })
+    const request = new Request(`Get${this.$getResourceName()}List`)
 
     request.addAttribute('Fields', fields.join(' '))
 
@@ -141,17 +146,27 @@ class QueryBuilder {
       })
     }
 
-    return new Promise((resolve, reject) => {
-      client.send({ body: request.toString() })
-        .then((response) => {
-          const { data, nbItems, version } = JSON.parse(response)
-          const modelInstances = this.$mapRowsToInstances(data)
-          resolve(new this.$model.Serializer(modelInstances, { nbItems, version }))
-        })
-        .catch((e) => {
-          reject(e)
-        })
-    })
+    try {
+      const response = await client.send({ body: request.toString() })
+      const { data, nbItems, version } = JSON.parse(response)
+      const modelInstances = this.$mapRowsToInstances(data)
+
+      return new this.$model.Serializer(modelInstances, { nbItems, version })
+    } catch (e) {
+      throw e
+    }
+
+    // return new Promise((resolve, reject) => {
+    //   client.send({ body: request.toString() })
+    //     .then((response) => {
+    //       const { data, nbItems, version } = JSON.parse(response)
+    //       const modelInstances = this.$mapRowsToInstances(data)
+    //       resolve(new this.$model.Serializer(modelInstances, { nbItems, version }))
+    //     })
+    //     .catch((e) => {
+    //       reject(e)
+    //     })
+    // })
   }
 }
 

@@ -6,5 +6,6 @@ module.exports = {
     'semi': ['error', 'never'],
     'space-before-function-paren': ['error', 'always'],
     'no-void': 0,
+    'no-param-reassign': 0,
   },
 }

@@ -13,7 +13,7 @@ class Request {
    * @param  {boolean}   param.wrapped  - Defines if the request should be wrapped
    *                                      with <Requests></Requests>
    */
-  constructor ({ type, wrapped = false }) {
+  constructor (type, { wrapped = false } = {}) {
     this.$type = type
     this.$wrapped = wrapped
     this.$filters = new Map()
@@ -102,7 +102,7 @@ class Request {
     }
 
     if (this.$relations.size > 0) {
-      request += Array.from(this.$relations).map(([key, value]) => `<Relation Name="${key}"${value.length > 0 ? ` Fields="${value.join(' ')}"` : ''}/>`).join(' ')
+      request += Array.from(this.$relations).map(([key, value]) => `<Relation Name="${key}"${value.length > 0 ? ` Fields="${value.join(' ')}"` : ''}/>`).join('')
     }
 
     request += '</Request>'

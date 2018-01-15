@@ -27,7 +27,7 @@ test.group('HttpClient', (group) => {
   test('should return the response of the server', async (assert) => {
     fetchMock.post('*', GetTesting)
 
-    const request = new Request({ type: 'GetVolleyMatch' })
+    const request = new Request('GetVolleyMatch')
     const client = new HttpClient()
 
     assert.deepEqual(await client.send({ body: request.toString() }), JSON.stringify(GetTesting))
@@ -36,7 +36,7 @@ test.group('HttpClient', (group) => {
   test('should return the error when web service fail', async (assert) => {
     fetchMock.post('*', { body: BadParameter, status: 400 })
 
-    const request = new Request({ type: 'IHaveABadType' })
+    const request = new Request('IHaveABadType')
     const client = new HttpClient()
 
     try {

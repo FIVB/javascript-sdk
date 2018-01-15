@@ -36,37 +36,41 @@ test.group('QueryBuilder', (group) => {
     HttpClient.prototype.send.restore()
   })
 
-  test('should generate the query with given filter on fetch', (assert) => {
-    query
-      .filterBy('Test', 'Testing')
-      .fetch()
+  test('should generate the query with given filter on fetch', async (assert) => {
+      await query
+        .filterBy('Test', 'Testing')
+        .fetch()
+        .catch(() => {})
 
     assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModelList" Fields="No"><Filter Test="Testing"/></Request>')
   })
 
-  test('should generate the query with given filters on fetch', (assert) => {
-    query
+  test('should generate the query with given filters on fetch', async (assert) => {
+    await query
       .filterBy('Test', 'Testing')
       .filterBy('Test2', 'Testing2')
       .fetch()
+      .catch(() => {})
 
     assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModelList" Fields="No"><Filter Test="Testing" Test2="Testing2"/></Request>')
   })
 
-  test('should generate the query with given relations on fetch', (assert) => {
-    query
+  test('should generate the query with given relations on fetch', async (assert) => {
+    await query
       .with('Test', ['No'])
       .filterBy('Test', 'Testing')
       .filterBy('Test2', 'Testing2')
       .fetch()
+      .catch(() => {})
 
     assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModelList" Fields="No"><Filter Test="Testing" Test2="Testing2"/><Relation Name="Test" Fields="No"/></Request>')
   })
 
-  test('should generate the query with given relations without any fields on fetch', (assert) => {
-    query
+  test('should generate the query with given relations without any fields on fetch', async (assert) => {
+    await query
       .with('Test')
       .fetch()
+      .catch(() => {})
 
     assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModelList" Fields="No"><Relation Name="Test"/></Request>')
   })
@@ -75,14 +79,27 @@ test.group('QueryBuilder', (group) => {
     query
       .with('Test', ['No'])
       .find(1)
+      .catch(() => {})
 
     assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModel" No="1"><Relation Name="Test" Fields="No"/></Request>')
+  })
+
+  test('should generate the query with nested relations on find', (assert) => {
+    query
+      .with('Test', (query) => {
+        query.with('Testing')
+      })
+      .find(1)
+      .catch(() => {})
+
+    assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModel" No="1"><Relation Name="Test"><Relation Name="Testing"/></Relation></Request>')
   })
 
   test('should generate the query with given relations without any fields on find', (assert) => {
     query
       .with('Test')
       .find(1)
+      .catch(() => {})
 
     assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModel" No="1"><Relation Name="Test"/></Request>')
   })
@@ -117,7 +134,7 @@ test.group('QueryBuilder', (group) => {
   })
 
   test('should throw an error if the request is incorect on find', async (assert) => {
-    fetchMock.post('*', { body: BadParameter, status: 400 })
+    fetchMock.post('*', { body: BadParameter, status: 400 }, { overrideRoutes: true })
 
     try {
       await query.find(1)

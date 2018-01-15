@@ -36,6 +36,14 @@ class HttpClient {
     })
   }
 
+  static $parseError (error) {
+    try {
+      return JSON.parse(error)
+    } catch (e) {
+      return error
+    }
+  }
+
   /**
    * Sends the given request to the webservice.
    *
@@ -44,7 +52,7 @@ class HttpClient {
    *
    * @return Promise
    */
-  send ({ body, headers }) {
+  async send ({ body, headers }) {
     const usedOptions = this.$options
 
     if (headers !== void 0) {
@@ -56,34 +64,18 @@ class HttpClient {
       console.info(`[REQUEST] - ${body}`)
     }
 
-    return new Promise((resolve, reject) => {
-      let status
+    const response = await fetch(`${Config.hostname}/vis2009/XmlRequest.asmx`, Object.assign({}, usedOptions, { body }))
+    const responseBody = await response.text()
 
-      fetch(`${Config.hostname}/vis2009/XmlRequest.asmx`, Object.assign({}, usedOptions, { body }))
-        .then((response) => {
-          status = response.ok
+    if (!response.ok) {
+      return HttpClient.$parseError(responseBody)
+    }
 
-          return response.text()
-        })
-        .then((response) => {
-          if (status === false) {
-            throw Error(response)
-          }
+    if (responseBody) {
+      return responseBody
+    }
 
-          if (response !== '') {
-            resolve(response)
-          }
-
-          resolve(true)
-        })
-        .catch((e) => {
-          try {
-            reject(JSON.parse(e.message))
-          } catch (l) {
-            reject(e.message)
-          }
-        })
-    })
+    return true
   }
 }
 

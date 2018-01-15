@@ -5,7 +5,8 @@
  */
 
 import Model from '../ORM/Model'
-import Player from '../Player/Player'
+import Request from '../Network/Request'
+import HttpClient from '../Network/HttpClient'
 
 class VolleyTransfer extends Model {
   /**
@@ -20,10 +21,20 @@ class VolleyTransfer extends Model {
     return 'VolleyTransfer'
   }
 
-  static get $relations () {
-    return {
-      player: Player,
-    }
+  static sign (id, type) {
+    const client = new HttpClient()
+    const request = new Request('SignVolleyTransfer')
+
+    request.addAttribute('No', id)
+    request.addAttribute('SignatureType', type)
+
+    return new Promise((resolve, reject) => {
+      client.send({ body: request.toString() })
+        .then((response) => {
+          resolve(JSON.parse(response).data)
+        })
+        .catch(e => reject(e))
+    })
   }
 }
 

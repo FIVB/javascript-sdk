@@ -19,9 +19,9 @@ class Auth {
    *
    * @return {Promise<Object>}
    */
-  static attempt ({ username, password }) {
+  static attempt (username, password) {
     const client = new HttpClient()
-    const request = new Request({ type: 'GetJsonWebToken' })
+    const request = new Request('GetJsonWebToken')
 
     request.addAttributes({
       Username: username,
@@ -47,7 +47,7 @@ class Auth {
    */
   static logout () {
     const client = new HttpClient()
-    const request = new Request({ type: 'LogOut' })
+    const request = new Request('LogOut')
 
     return new Promise((resolve, reject) => {
       client.send({ body: request.toString() })
@@ -68,7 +68,7 @@ class Auth {
    */
   static validateToken (accessToken) {
     const client = new HttpClient()
-    const request = new Request({ type: 'CheckJsonWebToken' })
+    const request = new Request('CheckJsonWebToken')
 
     return new Promise((resolve, reject) => {
       client.send({
@@ -92,7 +92,7 @@ class Auth {
    */
   static refreshToken (refreshToken) {
     const client = new HttpClient()
-    const request = new Request({ type: 'GetJsonWebToken' })
+    const request = new Request('GetJsonWebToken')
 
     request.addAttribute('RefreshToken', refreshToken)
 
@@ -112,7 +112,7 @@ class Auth {
    */
   static getUser () {
     const client = new HttpClient()
-    const request = new Request({ type: 'GetUser' })
+    const request = new Request('GetUser')
 
     return new Promise((resolve, reject) => {
       client.send({ body: request.toString() })
