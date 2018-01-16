@@ -4,7 +4,7 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
-import buble from 'rollup-plugin-buble'
+import babel from 'rollup-plugin-babel'
 import uglify from 'rollup-plugin-uglify'
 import { minify } from 'uglify-es'
 import commonjs from 'rollup-plugin-commonjs'
@@ -15,19 +15,21 @@ import pkg from './package.json'
 export default [
   {
     input: 'src/index.js',
-    output: [
-      { file: 'dist/sdk.umd.js', format: 'umd', name: 'Fivb' },
-    ],
+    output: {
+      file: 'dist/sdk.umd.js',
+      format: 'umd',
+      name: 'Fivb',
+      globals: { 'node-fetch': 'fetch' },
+    },
     plugins: [
       json(),
-      buble({
-        exclude: ['node_modules/**'],
+      babel({
+        exclude: 'node_modules/**',
       }),
       resolve(),
       commonjs(),
       uglify({}, minify),
     ],
-    globals: { 'node-fetch': 'fetch' },
     external: ['node-fetch'],
   },
   {
@@ -38,9 +40,8 @@ export default [
     ],
     plugins: [
       json(),
-      buble({
-        exclude: ['node_modules/**'],
-        modules: false,
+      babel({
+        exclude: 'node_modules/**',
       }),
       commonjs(),
     ],

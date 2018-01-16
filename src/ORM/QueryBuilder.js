@@ -104,7 +104,6 @@ class QueryBuilder {
       })
     }
 
-
     try {
       const response = await client.send({ body: request.toString() })
       const row = JSON.parse(response).data
