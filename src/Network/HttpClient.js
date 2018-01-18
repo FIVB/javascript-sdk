@@ -57,10 +57,10 @@ class HttpClient {
     }
 
     const response = await fetch(`${Config.hostname}/vis2009/XmlRequest.asmx`, Object.assign({}, usedOptions, { body }))
-    const responseBody = await response.text()
+    const responseBody = JSON.parse(await response.text())
 
     if (!response.ok) {
-      return responseBody
+      throw new Error(responseBody)
     }
 
     if (responseBody) {
