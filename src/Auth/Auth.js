@@ -28,13 +28,7 @@ class Auth {
       Password: password,
     })
 
-    return new Promise((resolve, reject) => {
-      client.send({ body: request.toString() })
-        .then((response) => {
-          resolve(JSON.parse(response).data)
-        })
-        .catch(e => reject(e))
-    })
+    return client.send({ body: request.toString() })
   }
 
   /**
@@ -49,13 +43,7 @@ class Auth {
     const client = new HttpClient()
     const request = new Request('LogOut')
 
-    return new Promise((resolve, reject) => {
-      client.send({ body: request.toString() })
-        .then((response) => {
-          resolve(JSON.parse(response).data)
-        })
-        .catch(e => reject(e))
-    })
+    return client.send({ body: request.toString() })
   }
 
   /**
@@ -70,15 +58,11 @@ class Auth {
     const client = new HttpClient()
     const request = new Request('CheckJsonWebToken')
 
-    return new Promise((resolve, reject) => {
-      client.send({
-        body: request.toString(),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-        .then(response => resolve(response))
-        .catch(e => reject(e))
+    return client.send({
+      body: request.toString(),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
   }
 
@@ -96,11 +80,7 @@ class Auth {
 
     request.addAttribute('RefreshToken', refreshToken)
 
-    return new Promise((resolve, reject) => {
-      client.send({ body: request.toString() })
-        .then(response => resolve(JSON.parse(response).data))
-        .catch(e => reject(e))
-    })
+    return client.send({ body: request.toString() })
   }
 
   /**
@@ -108,21 +88,16 @@ class Auth {
    *
    * @static
    *
-   * @return {Promise<User>}
+   * @return {User}
    */
-  static getUser () {
+  static async getUser () {
     const client = new HttpClient()
     const request = new Request('GetUser')
 
-    return new Promise((resolve, reject) => {
-      client.send({ body: request.toString() })
-        .then((response) => {
-          const user = new User(JSON.parse(response).data)
+    const response = await client.send({ body: request.toString() })
+    const user = new User(JSON.parse(response).data)
 
-          resolve(new User.Serializer(user, {}, true))
-        })
-        .catch(e => reject(e))
-    })
+    return new User.Serializer(user, {}, true)
   }
 }
 
