@@ -36,14 +36,6 @@ class HttpClient {
     })
   }
 
-  static $parseError (error) {
-    try {
-      return JSON.parse(error)
-    } catch (e) {
-      return error
-    }
-  }
-
   /**
    * Sends the given request to the webservice.
    *
@@ -68,7 +60,7 @@ class HttpClient {
     const responseBody = await response.text()
 
     if (!response.ok) {
-      return HttpClient.$parseError(responseBody)
+      return responseBody
     }
 
     if (responseBody) {

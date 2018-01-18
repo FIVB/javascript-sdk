@@ -16,12 +16,6 @@ test.group('Request', () => {
     assert.equal(request.toString(), '<Request Type="TestingType"></Request>')
   })
 
-  test('should wrap when asked', (assert) => {
-    const request = new Request('TestingType', { wrapped: true })
-
-    assert.equal(request.toString(), '<Requests><Request Type="TestingType"></Request></Requests>')
-  })
-
   test('should be able to set attribute', (assert) => {
     const request = new Request('TestingType')
     request.addAttribute('Test', 'Testing')

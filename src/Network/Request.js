@@ -10,12 +10,9 @@ class Request {
    *
    * @constructor
    * @param  {string}    param.type     - Type of the request
-   * @param  {boolean}   param.wrapped  - Defines if the request should be wrapped
-   *                                      with <Requests></Requests>
    */
-  constructor (type, { wrapped = false } = {}) {
+  constructor (type) {
     this.$type = type
-    this.$wrapped = wrapped
     this.$filters = new Map()
     this.$relations = new Map()
     this.$attributes = new Map()
@@ -106,10 +103,6 @@ class Request {
     }
 
     request += '</Request>'
-
-    if (this.$wrapped === true) {
-      return `<Requests>${request}</Requests>`
-    }
 
     return request
   }
