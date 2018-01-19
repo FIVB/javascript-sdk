@@ -19,7 +19,7 @@ class Auth {
    *
    * @return {Promise<Object>}
    */
-  static attempt (username, password) {
+  static async attempt (username, password) {
     const client = new HttpClient()
     const request = new Request('GetJsonWebToken')
 

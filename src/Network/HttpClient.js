@@ -60,10 +60,10 @@ class HttpClient {
     const responseBody = JSON.parse(await response.text())
 
     if (!response.ok) {
-      throw new Error(responseBody)
+      throw responseBody
     }
 
-    if (responseBody) {
+    if (responseBody !== '') {
       return responseBody
     }
 

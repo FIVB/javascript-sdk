@@ -106,7 +106,7 @@ class QueryBuilder {
 
     try {
       const response = await client.send({ body: request.toString() })
-      const row = JSON.parse(response).data
+      const row = response.data
       const modelInstance = this.$mapRowToInstance(row)
 
       return new this.$model.Serializer(modelInstance, {}, true)
@@ -147,7 +147,7 @@ class QueryBuilder {
 
     try {
       const response = await client.send({ body: request.toString() })
-      const { data, nbItems, version } = JSON.parse(response)
+      const { data, nbItems, version } = response
       const modelInstances = this.$mapRowsToInstances(data)
 
       return new this.$model.Serializer(modelInstances, { nbItems, version })
