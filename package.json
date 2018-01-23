@@ -14,6 +14,7 @@
     "test": "yarn run lint && nyc japa"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "isomorphic-unfetch": "^2.0.0",
     "resetable": "^1.0.3"
   },

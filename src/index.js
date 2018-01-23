@@ -4,6 +4,7 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
+import 'babel-polyfill'
 import Auth from './Auth/Auth'
 import BeachTeam from './Beach/BeachTeam'
 import Config from './Core/Config'
