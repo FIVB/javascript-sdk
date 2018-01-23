@@ -1,6 +1,6 @@
 {
   "name": "@fivb/sdk",
-  "version": "0.1.0-alpha.11",
+  "version": "0.1.0-alpha.12",
   "description": "FIVB SDK to interact with the FIVB WebService",
   "author": "Romain Lanz <romain.lanz@fivb.com>",
   "main": "dist/sdk.cjs.js",
