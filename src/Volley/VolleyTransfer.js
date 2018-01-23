@@ -28,13 +28,7 @@ class VolleyTransfer extends Model {
     request.addAttribute('No', id)
     request.addAttribute('SignatureType', type)
 
-    return new Promise((resolve, reject) => {
-      client.send({ body: request.toString() })
-        .then((response) => {
-          resolve(JSON.parse(response).data)
-        })
-        .catch(e => reject(e))
-    })
+    return client.send({ body: request.toString() })
   }
 }
 

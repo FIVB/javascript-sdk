@@ -82,7 +82,13 @@ class Serializer {
       return Serializer.$getRowJSONIndexed(key, this.$rows)
     }
 
-    return this.$rows.map(row => Serializer.$getRowJSONIndexed(key, row))
+    const indexed = {}
+
+    this.$rows.forEach((row) => {
+      Object.assign(indexed, Serializer.$getRowJSONIndexed(key, row))
+    })
+
+    return indexed
   }
 
   /**

@@ -19,7 +19,7 @@ class Auth {
    *
    * @return {Promise<Object>}
    */
-  static async attempt (username, password) {
+  static attempt (username, password) {
     const client = new HttpClient()
     const request = new Request('GetJsonWebToken')
 
@@ -95,7 +95,7 @@ class Auth {
     const request = new Request('GetUser')
 
     const response = await client.send({ body: request.toString() })
-    const user = new User(JSON.parse(response).data)
+    const user = new User(response.data)
 
     return new User.Serializer(user, {}, true)
   }
