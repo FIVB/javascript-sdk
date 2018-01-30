@@ -4,7 +4,7 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
-require('buble/register')
+require('babel-core/register')
 require('reify')
 const test = require('japa')
 const sinon = require('sinon')
@@ -24,16 +24,17 @@ class TestModel extends Model {
   static get $name () { return 'TestModel' }
 }
 
+let client = null
 let query = null
 
 test.group('QueryBuilder', (group) => {
   group.beforeEach(() => {
-    sinon.stub(HttpClient.prototype, 'send')
+    client = sinon.stub(HttpClient.prototype, 'send')
     query = new QueryBuilder(TestModel)
   })
 
   group.afterEach(() => {
-    HttpClient.prototype.send.restore()
+    client.restore()
   })
 
   test('should generate the query with given filter on fetch', async (assert) => {
@@ -42,7 +43,7 @@ test.group('QueryBuilder', (group) => {
         .fetch()
         .catch(() => {})
 
-    assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModelList" Fields="No"><Filter Test="Testing"/></Request>')
+    assert.isTrue(client.calledWith({ body: '<Request Type="GetTestModelList" Fields="No"><Filter Test="Testing"/></Request>' }))
   })
 
   test('should generate the query with given filters on fetch', async (assert) => {
@@ -52,7 +53,7 @@ test.group('QueryBuilder', (group) => {
       .fetch()
       .catch(() => {})
 
-    assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModelList" Fields="No"><Filter Test="Testing" Test2="Testing2"/></Request>')
+    assert.isTrue(client.calledWith({ body: '<Request Type="GetTestModelList" Fields="No"><Filter Test="Testing" Test2="Testing2"/></Request>' }))
   })
 
   test('should generate the query with given relations on fetch', async (assert) => {
@@ -63,7 +64,7 @@ test.group('QueryBuilder', (group) => {
       .fetch()
       .catch(() => {})
 
-    assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModelList" Fields="No"><Filter Test="Testing" Test2="Testing2"/><Relation Name="Test" Fields="No"/></Request>')
+    assert.isTrue(client.calledWith({ body: '<Request Type="GetTestModelList" Fields="No"><Filter Test="Testing" Test2="Testing2"/><Relation Name="Test" Fields="No"/></Request>' }))
   })
 
   test('should generate the query with given relations without any fields on fetch', async (assert) => {
@@ -72,40 +73,40 @@ test.group('QueryBuilder', (group) => {
       .fetch()
       .catch(() => {})
 
-    assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModelList" Fields="No"><Relation Name="Test"/></Request>')
+    assert.isTrue(client.calledWith({ body: '<Request Type="GetTestModelList" Fields="No"><Relation Name="Test"/></Request>' }))
   })
 
-  test('should generate the query with given relations on find', (assert) => {
-    query
+  test('should generate the query with given relations on find', async (assert) => {
+    await query
       .with('Test', ['No'])
       .find(1)
       .catch(() => {})
 
-    assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModel" No="1"><Relation Name="Test" Fields="No"/></Request>')
+    assert.isTrue(client.calledWith({ body: '<Request Type="GetTestModel" No="1"><Relation Name="Test" Fields="No"/></Request>' }))
   })
 
-  test('should generate the query with nested relations on find', (assert) => {
-    query
+  test('should generate the query with nested relations on find', async (assert) => {
+    await query
       .with('Test', (query) => {
         query.with('Testing')
       })
       .find(1)
       .catch(() => {})
 
-    assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModel" No="1"><Relation Name="Test"><Relation Name="Testing"/></Relation></Request>')
+    assert.isTrue(client.calledWith({ body: '<Request Type="GetTestModel" No="1"><Relation Name="Test"><Relation Name="Testing"/></Relation></Request>' }))
   })
 
-  test('should generate the query with given relations without any fields on find', (assert) => {
-    query
+  test('should generate the query with given relations without any fields on find', async (assert) => {
+    await query
       .with('Test')
       .find(1)
       .catch(() => {})
 
-    assert.equal(HttpClient.prototype.send.args[0][0].body, '<Request Type="GetTestModel" No="1"><Relation Name="Test"/></Request>')
+    assert.isTrue(client.calledWith({ body: '<Request Type="GetTestModel" No="1"><Relation Name="Test"/></Request>' }))
   })
 
   test('should instantiate a Serializer with WS response on fetch', async (assert) => {
-    HttpClient.prototype.send.resolves(JSON.stringify(GetTestingList))
+    client.returns(GetTestingList)
 
     const serializer = await query.filterBy('Test', 'Testing').fetch()
 
@@ -113,7 +114,7 @@ test.group('QueryBuilder', (group) => {
   })
 
   test('should instantiate a Serializer with WS response on find', async (assert) => {
-    HttpClient.prototype.send.resolves(JSON.stringify(GetTesting))
+    client.returns(GetTesting)
 
     const serializer = await query.find(1)
 

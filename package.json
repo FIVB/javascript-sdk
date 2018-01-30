@@ -23,7 +23,6 @@
     "babel-eslint": "^8.2.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
-    "buble": "^0.18.0",
     "eslint": "^4.15.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
@@ -32,13 +31,12 @@
     "japa-cli": "^1.0.1",
     "nyc": "^11.4.1",
     "reify": "^0.13.7",
-    "rollup": "^0.54.0",
+    "rollup": "^0.55.1",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.2",
-    "rollup-plugin-uglify": "^2.0.1",
-    "sinon": "^4.1.5",
-    "uglify-es": "^3.3.7"
+    "rollup-plugin-uglify": "^3.0.0",
+    "sinon": "^4.1.5"
   }
 }

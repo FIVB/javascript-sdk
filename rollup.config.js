@@ -6,7 +6,6 @@
 
 import babel from 'rollup-plugin-babel'
 import uglify from 'rollup-plugin-uglify'
-import { minify } from 'uglify-es'
 import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 import json from 'rollup-plugin-json'
@@ -28,7 +27,7 @@ export default [
       }),
       resolve(),
       commonjs(),
-      uglify({}, minify),
+      uglify(),
     ],
     external: ['node-fetch'],
   },
@@ -45,6 +44,6 @@ export default [
       }),
       commonjs(),
     ],
-    external: ['isomorphic-unfetch', 'resetable'],
+    external: ['isomorphic-unfetch', 'resetable', 'babel-polyfill'],
   },
 ]

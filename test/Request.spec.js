@@ -4,7 +4,7 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
-require('buble/register')
+require('babel-core/register')
 require('reify')
 const test = require('japa')
 const Request = require('../src/Network/Request').default

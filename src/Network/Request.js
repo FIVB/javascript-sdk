@@ -80,10 +80,18 @@ class Request {
    *
    * @return {this}
    */
-  addRelation (name, fields = []) {
+  addRelation (name, fields) {
     this.$relations.set(name, fields)
 
     return this
+  }
+
+  $filtersToString () {
+    return `<Filter ${Array.from(this.$filters, ([key, value]) => `${key}="${value}"`).join(' ').trim()}/>`
+  }
+
+  $relationsToString () {
+    return Array.from(this.$relations, ([key, value]) => `<Relation Name="${key}"${value ? ` Fields="${value.join(' ')}"` : ''}/>`).join('')
   }
 
   /**
@@ -92,14 +100,14 @@ class Request {
    * @return  {string}
    */
   toString () {
-    let request = `<Request Type="${this.$type}"${this.$attributes.size > 0 ? ' ' : ''}${Array.from(this.$attributes).map(([key, value]) => `${key}="${value}"`).join(' ').trim()}>`
+    let request = `<Request Type="${this.$type}"${this.$attributes.size > 0 ? ' ' : ''}${Array.from(this.$attributes, ([key, value]) => `${key}="${value}"`).join(' ').trim()}>`
 
     if (this.$filters.size > 0) {
-      request += `<Filter ${Array.from(this.$filters).map(([key, value]) => `${key}="${value}"`).join(' ').trim()}/>`
+      request += this.$filtersToString()
     }
 
     if (this.$relations.size > 0) {
-      request += Array.from(this.$relations).map(([key, value]) => `<Relation Name="${key}"${value.length > 0 ? ` Fields="${value.join(' ')}"` : ''}/>`).join('')
+      request += this.$relationsToString()
     }
 
     request += '</Request>'

@@ -4,7 +4,7 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
-require('buble/register')
+require('babel-core/register')
 require('reify')
 const test = require('japa')
 const fetchMock = require('fetch-mock')
@@ -30,7 +30,7 @@ test.group('HttpClient', (group) => {
     const request = new Request('GetVolleyMatch')
     const client = new HttpClient()
 
-    assert.deepEqual(await client.send({ body: request.toString() }), JSON.stringify(GetTesting))
+    assert.deepEqual(await client.send({ body: request.toString() }), GetTesting)
   })
 
   test('should return the error when web service fail', async (assert) => {

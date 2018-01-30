@@ -47,23 +47,32 @@ class QueryBuilder {
   /**
    * Add a relation to the query.
    *
-   * @param  {string}             name      - Name of the relation
-   * @param  {function|string[]}  callback  - Extend the the query
-   * @param  {string[]}           fields    - Specific fields to retrieve
+   * @param  {string}    name      - Name of the relation
+   * @param  {string[]}  fields    - Specific fields to retrieve
    *
    * @return {this}
    */
-  with (name, callback, fields = null) {
+  with (name, fields) {
+    // if (name.indexOf('.') !== -1) {
+    //   console.log('nested')
+    //   return this.$registerNestedRelation(name, fields)
+    // }
+
     const relations = this.$relations.get()
-
-    if (fields === null) {
-      fields = callback
-    }
-
     relations.set(name, fields)
 
     return this
   }
+
+  // $registerNestedRelation (name, nestedFields = null) {
+  //   const relations = this.$relations.get()
+  //   const [parent, nested] = name.split('.')
+
+  //   const parentFields = relations.get(parent)
+  //   console.log('parentFields', parentFields)
+  //   console.log('nested', nested)
+  //   console.log('nestedFields', nestedFields)
+  // }
 
   /**
    * Filters your request with given parameters.
@@ -154,18 +163,6 @@ class QueryBuilder {
     } catch (e) {
       throw e
     }
-
-    // return new Promise((resolve, reject) => {
-    //   client.send({ body: request.toString() })
-    //     .then((response) => {
-    //       const { data, nbItems, version } = JSON.parse(response)
-    //       const modelInstances = this.$mapRowsToInstances(data)
-    //       resolve(new this.$model.Serializer(modelInstances, { nbItems, version }))
-    //     })
-    //     .catch((e) => {
-    //       reject(e)
-    //     })
-    // })
   }
 }
 
