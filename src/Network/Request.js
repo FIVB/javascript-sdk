@@ -80,18 +80,31 @@ class Request {
    *
    * @return {this}
    */
-  addRelation (name, fields) {
+  addRelation (name, fields = { fields: undefined }) {
     this.$relations.set(name, fields)
 
     return this
   }
 
   $filtersToString () {
-    return `<Filter ${Array.from(this.$filters, ([key, value]) => `${key}="${value}"`).join(' ').trim()}/>`
+    return `<Filter ${Array.from(this.$filters, ([key, value]) => `${key}="${value}"`).join(' ')}/>`
   }
 
   $relationsToString () {
-    return Array.from(this.$relations, ([key, value]) => `<Relation Name="${key}"${value ? ` Fields="${value.join(' ')}"` : ''}/>`).join('')
+    return Array.from(this.$relations, ([key, value]) => {
+      const { fields } = value
+
+      if (value.nested) {
+        let request = `<Relation Name="${key}"${fields ? ` Fields="${fields.join(' ')}"` : ''}>`
+        const [{ name, fields: nestedFields }] = value.nested
+        request += `<Relation Name="${name}"${nestedFields ? ` Fields="${nestedFields.join(' ')}"` : ''}/>`
+        request += '</Relation>'
+
+        return request
+      }
+
+      return `<Relation Name="${key}"${fields ? ` Fields="${fields.join(' ')}"` : ''}/>`
+    }).join('')
   }
 
   /**

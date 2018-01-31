@@ -53,26 +53,33 @@ class QueryBuilder {
    * @return {this}
    */
   with (name, fields) {
-    // if (name.indexOf('.') !== -1) {
-    //   console.log('nested')
-    //   return this.$registerNestedRelation(name, fields)
-    // }
+    if (name.indexOf('.') !== -1) {
+      return this.$registerNestedRelation(name, fields)
+    }
 
     const relations = this.$relations.get()
-    relations.set(name, fields)
+    relations.set(name, { fields })
 
     return this
   }
 
-  // $registerNestedRelation (name, nestedFields = null) {
-  //   const relations = this.$relations.get()
-  //   const [parent, nested] = name.split('.')
+  $registerNestedRelation (name, nestedFields = null) {
+    const relations = this.$relations.get()
+    const [parent, nested] = name.split('.')
 
-  //   const parentFields = relations.get(parent)
-  //   console.log('parentFields', parentFields)
-  //   console.log('nested', nested)
-  //   console.log('nestedFields', nestedFields)
-  // }
+    const parentFields = relations.get(parent)
+    relations.set(parent, {
+      fields: parentFields ? parentFields.fields : undefined,
+      nested: [
+        {
+          name: nested,
+          fields: nestedFields,
+        },
+      ],
+    })
+
+    return this
+  }
 
   /**
    * Filters your request with given parameters.

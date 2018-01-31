@@ -87,13 +87,40 @@ test.group('QueryBuilder', (group) => {
 
   test('should generate the query with nested relations on find', async (assert) => {
     await query
-      .with('Test', (query) => {
-        query.with('Testing')
-      })
+      .with('Test.Testing')
       .find(1)
       .catch(() => {})
 
     assert.isTrue(client.calledWith({ body: '<Request Type="GetTestModel" No="1"><Relation Name="Test"><Relation Name="Testing"/></Relation></Request>' }))
+  })
+
+  test('should generate the query with nested relations and fields on find', async (assert) => {
+    await query
+      .with('Test.Testing', ['No'])
+      .find(1)
+      .catch(() => {})
+
+    assert.isTrue(client.calledWith({ body: '<Request Type="GetTestModel" No="1"><Relation Name="Test"><Relation Name="Testing" Fields="No"/></Relation></Request>' }))
+  })
+
+    test('should generate the query with nested relations and fields on find', async (assert) => {
+    await query
+      .with('Test', ['Name'])
+      .with('Test.Testing', ['No'])
+      .find(1)
+      .catch(() => {})
+
+    assert.isTrue(client.calledWith({ body: '<Request Type="GetTestModel" No="1"><Relation Name="Test" Fields="Name"><Relation Name="Testing" Fields="No"/></Relation></Request>' }))
+  })
+
+
+  test('should generate the query with nested relations on fetch', async (assert) => {
+    await query
+      .with('Test.Testing')
+      .fetch()
+      .catch(() => {})
+
+    assert.isTrue(client.calledWith({ body: '<Request Type="GetTestModelList" Fields="No"><Relation Name="Test"><Relation Name="Testing"/></Relation></Request>' }))
   })
 
   test('should generate the query with given relations without any fields on find', async (assert) => {

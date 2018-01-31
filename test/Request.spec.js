@@ -52,7 +52,7 @@ test.group('Request', () => {
 
   test('should be able to add relation', (assert) => {
     const request = new Request('TestingType')
-    request.addRelation('Test', ['No'])
+    request.addRelation('Test', { fields: ['No'] })
 
     assert.equal(request.toString(), '<Request Type="TestingType"><Relation Name="Test" Fields="No"/></Request>')
   })
