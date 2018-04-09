@@ -13,6 +13,7 @@ import User from './User/User'
 import Request from './Network/Request'
 import HttpClient from './Network/HttpClient'
 import VolleyTransfer from './Volley/VolleyTransfer'
+import VolleyTournament from './Volley/VolleyTournament'
 
 export {
   Auth,
@@ -23,4 +24,5 @@ export {
   Request,
   HttpClient,
   VolleyTransfer,
+  VolleyTournament,
 }
