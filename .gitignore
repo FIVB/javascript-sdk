@@ -1,4 +1,5 @@
-.reify-cache
 .nyc_output
 dist
+build
 node_modules
+yarn-error.log

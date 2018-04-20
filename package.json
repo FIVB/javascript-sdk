@@ -1,6 +1,6 @@
 {
   "name": "@fivb/sdk",
-  "version": "0.1.0-alpha.15",
+  "version": "0.1.0-alpha.16",
   "description": "FIVB SDK to interact with the FIVB WebService",
   "author": "Romain Lanz <romain.lanz@fivb.com>",
   "main": "dist/sdk.cjs.js",
@@ -8,35 +8,30 @@
   "jsnext:main": "dist/sdk.esm.js",
   "license": "MIT",
   "scripts": {
-    "prepublish": "yarn run build",
-    "build": "yarn run lint && rollup -c",
-    "lint": "eslint src/**/*.js",
-    "test": "yarn run lint && nyc japa"
+    "prepublish": "gulp bundle",
+    "lint": "gulp lint",
+    "build": "gulp build",
+    "bundle": "gulp bundle",
+    "test": "gulp test"
   },
-  "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "isomorphic-unfetch": "^2.0.0",
-    "resetable": "^1.0.3"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.1",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^4.15.0",
-    "eslint-config-airbnb-base": "^12.1.0",
+    "@slynova/eslint-config": "^1.0.4",
+    "eslint": "^4.19.1",
     "eslint-plugin-import": "^2.8.0",
-    "fetch-mock": "^6.0.0-beta.7",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^4.0.2",
+    "gulp-help": "^1.6.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-typescript": "^4.0.2",
     "japa": "^1.0.6",
     "japa-cli": "^1.0.1",
     "nyc": "^11.4.1",
-    "reify": "^0.15.1",
+    "rimraf": "^2.6.2",
     "rollup": "^0.57.1",
-    "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-plugin-json": "^2.3.0",
-    "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-plugin-uglify": "^3.0.0",
-    "sinon": "^4.1.5"
+    "typescript": "^2.8.1",
+    "typescript-eslint-parser": "^14.0.0"
   }
 }
