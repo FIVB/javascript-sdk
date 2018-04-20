@@ -1,7 +1,10 @@
+.nyc_outpute
 docs
+build
 src
 tests
 .editorconfig
-.eslintrc.js
+.eslintrc
 .gitignore
 rollup.config.js
+tsconfig.json

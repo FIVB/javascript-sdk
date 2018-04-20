@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "parser": "typescript-eslint-parser",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": "@slynova",
+  "rules": {
+    "no-undef": 0
+  }
+}
