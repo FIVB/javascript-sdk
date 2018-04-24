@@ -7,9 +7,9 @@
     "strictNullChecks": true,
     "declaration": true,
     "moduleResolution": "node",
-    "module": "commonjs",
+    "module": "esnext",
     "target": "esnext",
-    "outDir": "./build"
+    "outDir": "./dist/esm"
   },
   "include": [
     "src/**/*"

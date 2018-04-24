@@ -1,11 +1,11 @@
 {
   "name": "@fivb/sdk",
-  "version": "0.1.0-alpha.16",
+  "version": "0.1.0-alpha.17",
   "description": "FIVB SDK to interact with the FIVB WebService",
   "author": "Romain Lanz <romain.lanz@fivb.com>",
-  "main": "dist/sdk.cjs.js",
-  "module": "dist/sdk.esm.js",
-  "jsnext:main": "dist/sdk.esm.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "jsnext:main": "dist/esm/index.js",
   "license": "MIT",
   "scripts": {
     "prepublish": "gulp bundle",

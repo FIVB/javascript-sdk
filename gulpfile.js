@@ -3,7 +3,8 @@ const rimraf = require('rimraf')
 const gulp = require('gulp-help')(require('gulp'))
 const $plugins = require('gulp-load-plugins')()
 
-const tsProject = $plugins.typescript.createProject('tsconfig.json')
+const tsCJSProject = $plugins.typescript.createProject('tsconfig.cjs.json')
+const tsESMProject = $plugins.typescript.createProject('tsconfig.esm.json')
 
 gulp.task('default', ['help'])
 
@@ -18,11 +19,15 @@ gulp.task('clean', 'Clean build & dist directory.', (cb) => {
   rimraf('./+(build|dist)', cb)
 })
 
-gulp.task('build', 'Build the code into plain Javascript.', ['lint', 'clean'], () => (
+gulp.task('build', 'Build the code into plain Javascript.', ['lint', 'clean'], () => {
   gulp.src('src/**/*.ts')
-    .pipe(tsProject())
-    .pipe(gulp.dest('./build'))
-))
+    .pipe(tsCJSProject())
+    .pipe(gulp.dest('./dist/cjs'))
+
+  return gulp.src('src/**/*.ts')
+    .pipe(tsESMProject())
+    .pipe(gulp.dest('./dist/esm'))
+})
 
 gulp.task('bundle', 'Bundle the code using Rolllup.', ['build'], (cb) => {
   exec('npx rollup -c', (err, stdout, stderr) => {
