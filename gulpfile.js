@@ -1,8 +1,8 @@
 const { exec } = require('child_process')
+const merge = require('merge2')
 const rimraf = require('rimraf')
 const gulp = require('gulp-help')(require('gulp'))
 const $plugins = require('gulp-load-plugins')()
-
 const tsCJSProject = $plugins.typescript.createProject('tsconfig.cjs.json')
 const tsESMProject = $plugins.typescript.createProject('tsconfig.esm.json')
 
@@ -24,12 +24,16 @@ gulp.task('build', 'Build the code into plain Javascript.', ['lint', 'clean'], (
     .pipe(tsCJSProject())
     .pipe(gulp.dest('./dist/cjs'))
 
-  return gulp.src('src/**/*.ts')
+  const esm = gulp.src('src/**/*.ts')
     .pipe(tsESMProject())
-    .pipe(gulp.dest('./dist/esm'))
+
+  return merge([
+    esm.dts.pipe(gulp.dest('./types')),
+    esm.js.pipe(gulp.dest('./dist/esm')),
+  ])
 })
 
-gulp.task('bundle', 'Bundle the code using Rolllup.', ['build'], (cb) => {
+gulp.task('bundle', 'Bundle the code using Rolllup.', ['test', 'build'], (cb) => {
   exec('npx rollup -c', (err, stdout, stderr) => {
     console.log(stdout)
     console.log(stderr)

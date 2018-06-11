@@ -5,7 +5,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictNullChecks": true,
-    "declaration": true,
+    "declaration": false,
     "moduleResolution": "node",
     "module": "commonjs",
     "target": "esnext",

@@ -9,7 +9,8 @@
     "moduleResolution": "node",
     "module": "esnext",
     "target": "esnext",
-    "outDir": "./dist/esm"
+    "outDir": "./dist/esm",
+    "declarationDir": "./types"
   },
   "include": [
     "src/**/*"

@@ -5,7 +5,7 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
-import uglify from 'rollup-plugin-uglify'
+import { terser } from 'rollup-plugin-terser'
 import commonjs from 'rollup-plugin-commonjs'
 
 export default [
@@ -19,7 +19,7 @@ export default [
     },
     plugins: [
       commonjs(),
-      uglify(),
+      terser(),
     ],
   },
 ]
