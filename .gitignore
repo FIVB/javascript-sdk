@@ -1,6 +1,8 @@
 .nyc_output
+.rts2_cache_cjs
+.rts2_cache_es
+.rts2_cache_umd
 dist
-build
 types
 node_modules
-yarn-error.log
+package-lock.json
