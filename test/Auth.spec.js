@@ -6,7 +6,7 @@
  */
 
 const test = require('japa')
-const Auth = require('../dist/cjs/Service/Auth').default
+const Auth = require('../dist/fivb').Auth
 
 test.group('Service | Auth', () => {
   test('should create the correct request to attempt an auth', (assert) => {

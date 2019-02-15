@@ -5,18 +5,25 @@
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
 
+export interface QueryBuilderOptions {
+  key?: string
+}
+
 // eslint-disable-next-line no-unused-vars
 import Request, { RelationOptionsInterface } from '../Core/Request'
 
 class QueryBuilder {
   private $name: string
 
+  private $pk: string
+
   private $filters = new Map<string, string|number>()
 
   private $relations = new Map<string, RelationOptionsInterface>()
 
-  constructor (name: string) {
+  constructor (name: string, options: QueryBuilderOptions = {}) {
     this.$name = name
+    this.$pk = options.key || 'No'
   }
 
   $registerNestedRelation (name: string, options: RelationOptionsInterface): this {
@@ -76,7 +83,7 @@ class QueryBuilder {
   find (key: number, fields?: string[]): string {
     const request = new Request(`Get${this.$name}`)
 
-    request.addAttribute('No', key)
+    request.addAttribute(this.$pk, key)
 
     if (fields !== undefined) {
       request.addAttribute('Fields', fields.join(' '))

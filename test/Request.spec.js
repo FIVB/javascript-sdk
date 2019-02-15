@@ -6,7 +6,7 @@
  */
 
 const test = require('japa')
-const Request = require('../dist/cjs/Core/Request').default
+const Request = require('../dist/fivb').Request
 
 test.group('Core | Request', () => {
   test('should use the given type', (assert) => {

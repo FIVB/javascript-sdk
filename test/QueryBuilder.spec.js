@@ -6,7 +6,7 @@
  */
 
 const test = require('japa')
-const QueryBuilder = require('../dist/cjs/Database/QueryBuilder').default
+const QueryBuilder = require('../dist/fivb').QueryBuilder
 
 test.group('Database | QueryBuilder', () => {
   test('should create a find query with the correct type', (assert) => {
