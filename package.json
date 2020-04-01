@@ -1,7 +1,7 @@
 {
   "name": "@fivb/sdk",
   "amdName": "Fivb",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "FIVB SDK to interact with the FIVB WebService",
   "author": "Romain Lanz <romain.lanz@fivb.com>",
   "main": "dist/fivb.js",
