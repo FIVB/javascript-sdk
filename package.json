@@ -26,6 +26,6 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
-    "lodash-es": "^4.17.15"
+    "lodash": "^4.17.15"
   }
 }

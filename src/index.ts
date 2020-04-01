@@ -8,10 +8,11 @@
 import Auth from './Service/Auth'
 import Request from './Core/Request'
 import QueryBuilder from './Database/QueryBuilder'
-export * from './helpers'
+import { req } from './helpers'
 
 export {
   Auth,
   Request,
   QueryBuilder,
+  req,
 }

@@ -4,7 +4,7 @@
  * @license MIT
  * @copyright FIVB - Romain Lanz <romain.lanz@fivb.com>
  */
-import escape from 'lodash-es/escape';
+import escape from 'lodash/escape';
 
 export function req(query: TemplateStringsArray) {
 	const reg = /\$[a-z:]+/gi
