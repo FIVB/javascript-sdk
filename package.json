@@ -1,6 +1,6 @@
 {
 	"name": "@fivb/sdk",
-	"version": "2.0.0",
+	"version": "2.0.0-beta.1",
 	"description": "FIVB SDK to interact with the FIVB WebService",
 	"author": "Romain Lanz <romain.lanz@fivb.com>",
 	"license": "MIT",
