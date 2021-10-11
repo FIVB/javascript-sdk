@@ -1,18 +1,18 @@
 {
 	"name": "@fivb/sdk",
 	"amdName": "FIVB",
-	"version": "2.0.0-beta.2",
+	"version": "2.0.0-beta.3",
 	"description": "FIVB SDK to interact with the FIVB WebService",
 	"author": "Romain Lanz <romain.lanz@fivb.com>",
 	"license": "MIT",
 	"type": "module",
 	"source": "src/index.ts",
-	"main": "dist/sdk.cjs",
-	"umd:main": "dist/sdk.umd.js",
-	"module": "dist/sdk.m.js",
+	"main": "dist/index.cjs",
+	"umd:main": "dist/index.umd.js",
+	"module": "dist/index.m.js",
 	"exports": {
-		"require": "./dist/sdk.cjs",
-		"default": "./dist/sdk.modern.js"
+		"require": "./dist/index.cjs",
+		"default": "./dist/index.modern.js"
 	},
 	"types": "dist/index.d.ts",
 	"homepage": "https://github.com/FIVB/javascript-sdk#readme",
