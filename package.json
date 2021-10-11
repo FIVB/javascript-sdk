@@ -1,0 +1,19 @@
+{
+  "name": "@fivb/sdk",
+  "version": "1.0.0",
+  "description": "FIVB SDK to interact with the FIVB WebService",
+  "author": "Romain Lanz <romain.lanz@fivb.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FIVB/javascript-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FIVB/javascript-sdk/issues"
+  },
+  "homepage": "https://github.com/FIVB/javascript-sdk#readme"
+}
