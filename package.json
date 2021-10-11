@@ -1,13 +1,21 @@
 {
   "name": "@fivb/sdk",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "FIVB SDK to interact with the FIVB WebService",
   "author": "Romain Lanz <romain.lanz@fivb.com>",
   "license": "MIT",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "amdName": "FIVB",
+  "type": "module",
+  "source": "src/index.ts",
+  "main": "dist/sdk.js",
+  "umd:main": "dist/sdk.umd.js",
+  "module": "dist/sdk.m.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "require": "./dist/sdk.js",
+    "default": "./dist/sdk.modern.js"
   },
+  "homepage": "https://github.com/FIVB/javascript-sdk#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FIVB/javascript-sdk.git"
@@ -15,5 +23,13 @@
   "bugs": {
     "url": "https://github.com/FIVB/javascript-sdk/issues"
   },
-  "homepage": "https://github.com/FIVB/javascript-sdk#readme"
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "build": "microbundle",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "microbundle": "^0.14.0",
+    "typescript": "^4.4.3"
+  }
 }
