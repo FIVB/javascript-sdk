@@ -1,2 +1,0 @@
-# FIVB Javascript SDK
-
