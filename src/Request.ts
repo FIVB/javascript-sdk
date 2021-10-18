@@ -124,8 +124,203 @@ export class Request {
 	}
 }
 
-export type Entity = 'Article' | 'VolleyTransfer';
-export type GetListRequest = `Get${Entity}List`;
-export type GetRequest = `Get${Entity}`;
-export type RequestType = GetListRequest | GetRequest;
+export enum Models {
+	Application = 'Application',
+	ApplicationRequestStatistic = 'ApplicationRequestStatistic',
+	Article = 'Article',
+	ArticleText = 'ArticleText',
+	BankAccount = 'BankAccount',
+	BeachMatch = 'BeachMatch',
+	BeachLive = 'BeachLive',
+	BeachRanking = 'BeachRanking',
+	BeachRankingParameters = 'BeachRankingParameters',
+	BeachStartingPointsRanking = 'BeachStartingPointsRanking',
+	BeachRound = 'BeachRound',
+	BeachStatistic = 'BeachStatistic',
+	BeachTeam = 'BeachTeam',
+	BeachTeamMate = 'BeachTeamMate',
+	BeachTemplate = 'BeachTemplate',
+	BeachTournament = 'BeachTournament',
+	Coach = 'Coach',
+	Confederation = 'Confederation',
+	CourseAttender = 'CourseAttender',
+	DevelopmentProject = 'DevelopmentProject',
+	DevelopmentProjectProgressReport = 'DevelopmentProjectProgressReport',
+	DayScheduleEntry = 'DayScheduleEntry',
+	Document = 'Document',
+	Event = 'Event',
+	EventAccreditation = 'EventAccreditation',
+	EventOfficial = 'EventOfficial',
+	EventReferee = 'EventReferee',
+	ExportDefinition = 'ExportDefinition',
+	Federation = 'Federation',
+	FederationVolleyDivision = 'FederationVolleyDivision',
+	FederationVolleySeason = 'FederationVolleySeason',
+	FederationVolleySeasonDivision = 'FederationVolleySeasonDivision',
+	Image = 'Image',
+	Match = 'Match',
+	MediaOrganization = 'MediaOrganization',
+	MediaPerson = 'MediaPerson',
+	MedicalPerson = 'MedicalPerson',
+	Official = 'Official',
+	Phase = 'Phase',
+	PhaseRanking = 'PhaseRanking',
+	PhaseTeam = 'PhaseTeam',
+	Player = 'Player',
+	PlayersAgent = 'PlayersAgent',
+	PlayerInjury = 'PlayerInjury',
+	PlayerAccountingEntry = 'PlayerAccountingEntry',
+	PressRelease = 'PressRelease',
+	Referee = 'Referee',
+	Round = 'Round',
+	RoundRanking = 'RoundRanking',
+	Season = 'Season',
+	Tag = 'Tag',
+	Tournament = 'Tournament',
+	TournamentPlayer = 'TournamentPlayer',
+	TournamentRanking = 'TournamentRanking',
+	TournamentTeam = 'TournamentTeam',
+	User = 'User',
+	VolleyClub = 'VolleyClub',
+	VolleyClubTeam = 'VolleyClubTeam',
+	VolleyClubTeamPlayer = 'VolleyClubTeamPlayer',
+	VolleyClubTeamSeasonDivision = 'VolleyClubTeamSeasonDivision',
+	VolleyHall = 'VolleyHall',
+	VolleyMatch = 'VolleyMatch',
+	VolleyMatchRefereeEvaluation = 'VolleyMatchRefereeEvaluation',
+	VolleyPlayer = 'VolleyPlayer',
+	VolleyPool = 'VolleyPool',
+	VolleyRankingDefinition = 'VolleyRankingDefinition',
+	VolleyTeam = 'VolleyTeam',
+	VolleyTournament = 'VolleyTournament',
+	VolleyTransfer = 'VolleyTransfer',
+	VolleyTransferFee = 'VolleyTransferFee',
+	VolleyTransferPayment = 'VolleyTransferPayment',
+	VolleyTransferSeason = 'VolleyTransferSeason',
+}
+
+export type GettableEntity =
+	| Models.Application
+	| Models.Article
+	| Models.BankAccount
+	| Models.BeachMatch
+	| Models.BeachLive
+	| Models.BeachRanking
+	| Models.BeachStartingPointsRanking
+	| Models.BeachRound
+	| Models.BeachTeam
+	| Models.BeachTemplate
+	| Models.BeachTournament
+	| Models.Coach
+	| Models.DevelopmentProject
+	| Models.DevelopmentProjectProgressReport
+	| Models.DayScheduleEntry
+	| Models.Document
+	| Models.Event
+	| Models.EventAccreditation
+	| Models.EventOfficial
+	| Models.EventReferee
+	| Models.ExportDefinition
+	| Models.Federation
+	| Models.FederationVolleyDivision
+	| Models.FederationVolleySeason
+	| Models.FederationVolleySeasonDivision
+	| Models.Image
+	| Models.Match
+	| Models.MediaOrganization
+	| Models.MediaPerson
+	| Models.MedicalPerson
+	| Models.Phase
+	| Models.PhaseRanking
+	| Models.Player
+	| Models.PlayersAgent
+	| Models.PlayerInjury
+	| Models.PressRelease
+	| Models.Referee
+	| Models.Round
+	| Models.RoundRanking
+	| Models.Tournament
+	| Models.TournamentPlayer
+	| Models.TournamentRanking
+	| Models.TournamentTeam
+	| Models.User
+	| Models.VolleyClub
+	| Models.VolleyClubTeam
+	| Models.VolleyClubTeamPlayer
+	| Models.VolleyHall
+	| Models.VolleyMatch
+	| Models.VolleyMatchRefereeEvaluation
+	| Models.VolleyPlayer
+	| Models.VolleyPool
+	| Models.VolleyTeam
+	| Models.VolleyTournament
+	| Models.VolleyTransfer
+	| Models.VolleyTransferFee
+	| Models.VolleyTransferPayment;
+
+export type ListableEntity =
+	| Models.ApplicationRequestStatistic
+	| Models.Article
+	| Models.BankAccount
+	| Models.BeachMatch
+	| Models.BeachRanking
+	| Models.BeachRankingParameters
+	| Models.BeachRound
+	| Models.BeachStatistic
+	| Models.BeachTeam
+	| Models.BeachTeamMate
+	| Models.BeachTemplate
+	| Models.BeachTournament
+	| Models.Coach
+	| Models.Confederation
+	| Models.CourseAttender
+	| Models.DevelopmentProject
+	| Models.DevelopmentProjectProgressReport
+	| Models.DayScheduleEntry
+	| Models.Document
+	| Models.Event
+	| Models.EventAccreditation
+	| Models.EventOfficial
+	| Models.EventReferee
+	| Models.ExportDefinition
+	| Models.Federation
+	| Models.FederationVolleyDivision
+	| Models.FederationVolleySeason
+	| Models.FederationVolleySeasonDivision
+	| Models.Image
+	| Models.MediaOrganization
+	| Models.MediaPerson
+	| Models.MedicalPerson
+	| Models.Official
+	| Models.Phase
+	| Models.PhaseTeam
+	| Models.Player
+	| Models.PlayerInjury
+	| Models.PlayerAccountingEntry
+	| Models.PressRelease
+	| Models.Referee
+	| Models.Round
+	| Models.Tag
+	| Models.Tournament
+	| Models.TournamentPlayer
+	| Models.TournamentTeam
+	| Models.User
+	| Models.VolleyClub
+	| Models.VolleyClubTeam
+	| Models.VolleyClubTeamPlayer
+	| Models.VolleyClubTeamSeasonDivision
+	| Models.VolleyHall
+	| Models.VolleyMatch
+	| Models.VolleyMatchRefereeEvaluation
+	| Models.VolleyPlayer
+	| Models.VolleyRankingDefinition
+	| Models.VolleyTournament
+	| Models.VolleyTransfer
+	| Models.VolleyTransferPayment
+	| Models.VolleyTransferSeason
+	| Models.Season;
+
+export type GetEntityListRequest = `Get${ListableEntity}List`;
+export type GetEntityRequest = `Get${GettableEntity}`;
+export type RequestType = GetEntityRequest | GetEntityListRequest;
 export type PropertiesTagName = 'Properties' | 'Fields';
