@@ -163,6 +163,7 @@ export enum Models {
 	MediaPerson = 'MediaPerson',
 	MedicalPerson = 'MedicalPerson',
 	Official = 'Official',
+	Person = 'Person',
 	Phase = 'Phase',
 	PhaseRanking = 'PhaseRanking',
 	PhaseTeam = 'PhaseTeam',
@@ -171,7 +172,9 @@ export enum Models {
 	PlayerInjury = 'PlayerInjury',
 	PlayerAccountingEntry = 'PlayerAccountingEntry',
 	PressRelease = 'PressRelease',
+	PressReleaseText = 'PressReleaseText',
 	Referee = 'Referee',
+	RefereeMatchesByYear = 'RefereeMatchesByYear',
 	Round = 'Round',
 	RoundRanking = 'RoundRanking',
 	Season = 'Season',
@@ -230,12 +233,14 @@ export type GettableEntity =
 	| Models.MediaOrganization
 	| Models.MediaPerson
 	| Models.MedicalPerson
+	| Models.Person
 	| Models.Phase
 	| Models.PhaseRanking
 	| Models.Player
 	| Models.PlayersAgent
 	| Models.PlayerInjury
 	| Models.PressRelease
+	| Models.PressReleaseText
 	| Models.Referee
 	| Models.Round
 	| Models.RoundRanking
@@ -292,13 +297,16 @@ export type ListableEntity =
 	| Models.MediaPerson
 	| Models.MedicalPerson
 	| Models.Official
+	| Models.Person
 	| Models.Phase
 	| Models.PhaseTeam
 	| Models.Player
 	| Models.PlayerInjury
 	| Models.PlayerAccountingEntry
 	| Models.PressRelease
+	| Models.PressReleaseText
 	| Models.Referee
+	| Models.RefereeMatchesByYear
 	| Models.Round
 	| Models.Tag
 	| Models.Tournament
@@ -320,7 +328,62 @@ export type ListableEntity =
 	| Models.VolleyTransferSeason
 	| Models.Season;
 
+export type SavableEntity =
+	| Models.Article
+	| Models.ArticleText
+	| Models.BankAccount
+	| Models.BeachMatch
+	| Models.BeachTeam
+	| Models.BeachTournament
+	| Models.Coach
+	| Models.Confederation
+	| Models.CourseAttender
+	| Models.DevelopmentProject
+	| Models.DevelopmentProjectProgressReport
+	| Models.DayScheduleEntry
+	| Models.Document
+	| Models.Event
+	| Models.EventAccreditation
+	| Models.EventOfficial
+	| Models.EventReferee
+	| Models.Federation
+	| Models.FederationVolleyDivision
+	| Models.FederationVolleySeason
+	| Models.FederationVolleySeasonDivision
+	| Models.Image
+	| Models.Match
+	| Models.MediaPerson
+	| Models.MedicalPerson
+	| Models.Official
+	| Models.Person
+	| Models.Phase
+	| Models.PhaseTeam
+	| Models.Player
+	| Models.PlayerAccountingEntry
+	| Models.PlayerInjury
+	| Models.PressRelease
+	| Models.PressReleaseText
+	| Models.Referee
+	| Models.RefereeMatchesByYear
+	| Models.Tournament
+	| Models.TournamentPlayer
+	| Models.TournamentTeam
+	| Models.User
+	| Models.VolleyClub
+	| Models.VolleyClubTeam
+	| Models.VolleyClubTeamPlayer
+	| Models.VolleyHall
+	| Models.VolleyMatch
+	| Models.VolleyMatchRefereeEvaluation
+	| Models.VolleyPlayer
+	| Models.VolleyPool
+	| Models.VolleyTeam
+	| Models.VolleyTournament
+	| Models.VolleyTransfer
+	| Models.VolleyTransferPayment;
+
 export type GetEntityListRequest = `Get${ListableEntity}List`;
 export type GetEntityRequest = `Get${GettableEntity}`;
-export type RequestType = GetEntityRequest | GetEntityListRequest;
+export type SaveEntityRequest = `Save${SavableEntity}`;
+export type RequestType = GetEntityRequest | GetEntityListRequest | SaveEntityRequest;
 export type PropertiesTagName = 'Properties' | 'Fields';
