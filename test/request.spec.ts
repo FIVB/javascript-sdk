@@ -62,6 +62,17 @@ test('compute deeply nested relation', () => {
 	);
 });
 
+test('compute deeply nested relation 2', () => {
+	const request = new Request('GetVolleyTransferList', ['No'])
+		.addRelation('Player', ['No'])
+		.addRelation('Player.Federation.Confederation', ['Name']);
+
+	assert.equal(
+		request.toString(),
+		'<Request Type="GetVolleyTransferList" Properties="No"><Relation Name="Player" Properties="No"><Relation Name="Federation"><Relation Name="Confederation" Properties="Name"/></Relation></Relation></Request>'
+	);
+});
+
 test('compute inline filters', () => {
 	const request = new Request('GetVolleyTransferList', ['No']).addInlineFilter('Statuses', 30);
 
