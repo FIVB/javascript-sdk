@@ -88,7 +88,11 @@ export class Request {
 	}
 
 	private relationToString(name: string, relation: RelationOptions): string {
-		let output = `<Relation Name="${name}" ${this.propertiesTag}="${relation.properties.join(' ')}"`;
+		let output = `<Relation Name="${name}"`;
+
+		if (relation.properties?.length > 0) {
+			output += ` ${this.propertiesTag}="${relation.properties.join(' ')}"`;
+		}
 
 		if (relation.relations) {
 			output += '>';
