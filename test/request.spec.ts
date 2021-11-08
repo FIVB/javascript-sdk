@@ -9,6 +9,12 @@ test('compute a standard request', () => {
 	assert.equal(request.toString(), '<Request Type="GetVolleyTransferList" Properties="No"></Request>');
 });
 
+test('compute a standard request with no properties', () => {
+	const request = new Request('GetVolleyTransferList');
+
+	assert.equal(request.toString(), '<Request Type="GetVolleyTransferList"></Request>');
+});
+
 test('let us use the old properties tag', () => {
 	const request = new Request('GetVolleyTransferList', ['No'], 'Fields');
 

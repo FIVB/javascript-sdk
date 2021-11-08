@@ -59,7 +59,7 @@ export class Request {
 
 	public toString(): string {
 		let request = `<Request Type="${this.type}"${
-			this.rootAttributes.size > 0 && ' ' + this.attributesToString(this.rootAttributes)
+			this.rootAttributes.size > 0 ? ' ' + this.attributesToString(this.rootAttributes) : ''
 		}>`;
 
 		if (this.inlineFilters.size > 0 || this.tagFilters.size > 0) {
