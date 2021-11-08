@@ -201,6 +201,7 @@ export enum Models {
 	VolleyTeam = 'VolleyTeam',
 	VolleyTournament = 'VolleyTournament',
 	VolleyTransfer = 'VolleyTransfer',
+	VolleyTransferContract = 'VolleyTransferContract',
 	VolleyTransferFee = 'VolleyTransferFee',
 	VolleyTransferPayment = 'VolleyTransferPayment',
 	VolleyTransferSeason = 'VolleyTransferSeason',
@@ -264,6 +265,7 @@ export type GettableEntity =
 	| Models.VolleyTeam
 	| Models.VolleyTournament
 	| Models.VolleyTransfer
+	| Models.VolleyTransferContract
 	| Models.VolleyTransferFee
 	| Models.VolleyTransferPayment;
 
@@ -328,6 +330,7 @@ export type ListableEntity =
 	| Models.VolleyRankingDefinition
 	| Models.VolleyTournament
 	| Models.VolleyTransfer
+	| Models.VolleyTransferContract
 	| Models.VolleyTransferPayment
 	| Models.VolleyTransferSeason
 	| Models.Season;
@@ -384,6 +387,7 @@ export type SavableEntity =
 	| Models.VolleyTeam
 	| Models.VolleyTournament
 	| Models.VolleyTransfer
+	| Models.VolleyTransferContract
 	| Models.VolleyTransferPayment;
 
 export type GetEntityListRequest = `Get${ListableEntity}List`;
