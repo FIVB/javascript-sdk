@@ -143,4 +143,28 @@ test('compute relations with custom attributes', () => {
 	);
 });
 
+test('compute query with custom nodes', () => {
+	const request = new Request('SaveVolleyTransferContract').addNode('VolleyTransferContract', {
+		StartOn: '2020-07-01',
+	});
+
+	assert.equal(
+		request.toString(),
+		'<Request Type="SaveVolleyTransferContract"><VolleyTransferContract StartOn="2020-07-01"/></Request>'
+	);
+});
+
+test('compute query with deep custom nodes', () => {
+	const request = new Request('SaveArticle')
+		.addNode('Article', {
+			DateTime: '2020-07-01',
+		})
+		.addNode('Article.ArticleText', { Headline: 'Test' });
+
+	assert.equal(
+		request.toString(),
+		'<Request Type="SaveArticle"><Article DateTime="2020-07-01"><ArticleText Headline="Test"/></Article></Request>'
+	);
+});
+
 test.run();

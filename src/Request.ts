@@ -6,11 +6,17 @@ type RelationOptions = {
 	customAttributes?: Record<string, string>;
 };
 
+type NodeOptions = {
+	attributes: Record<string, string>;
+	nodes?: { [key: string]: NodeOptions };
+};
+
 export class Request {
 	private type: RequestType;
 	private propertiesTag: PropertiesTagName = 'Properties';
 	private rootAttributes = new Map<string, string>();
 	private relations: Record<string, RelationOptions> = {};
+	private nodes: Record<string, NodeOptions> = {};
 	private inlineFilters = new Map<string, string>();
 	private tagFilters = new Set<string>();
 
@@ -41,6 +47,13 @@ export class Request {
 		return this;
 	}
 
+	public addNode(name: string, attributes: Record<string, string>): this {
+		const path = name.split('.').join('.nodes.');
+		dset(this.nodes, path, { attributes });
+
+		return this;
+	}
+
 	public addInlineFilter(name: string, value: string | number): this {
 		if (typeof value === 'number') {
 			this.inlineFilters.set(name, value.toString());
@@ -65,6 +78,10 @@ export class Request {
 
 		if (this.inlineFilters.size > 0 || this.tagFilters.size > 0) {
 			request += this.filtersToString();
+		}
+
+		if (Object.keys(this.nodes).length > 0) {
+			request += this.nodesToString();
 		}
 
 		if (Object.keys(this.relations).length > 0) {
@@ -107,6 +124,34 @@ export class Request {
 				.map((key) => this.relationToString(key, relation.relations![key]))
 				.join('');
 			output += '</Relation>';
+		} else {
+			output += '/>';
+		}
+
+		return output;
+	}
+
+	private nodesToString(): string {
+		return Object.keys(this.nodes)
+			.map((key) => this.nodeToString(key, this.nodes[key]))
+			.join('');
+	}
+
+	private nodeToString(name: string, node: NodeOptions): string {
+		let output = `<${name}`;
+
+		if (Object.keys(node.attributes).length > 0) {
+			Object.entries(node.attributes).forEach(([attribute, value]) => {
+				output += ` ${attribute}="${value}"`;
+			});
+		}
+
+		if (node.nodes) {
+			output += '>';
+			output += Object.keys(node.nodes!)
+				.map((key) => this.nodeToString(key, node.nodes![key]))
+				.join('');
+			output += `</${name}>`;
 		} else {
 			output += '/>';
 		}
