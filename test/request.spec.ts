@@ -132,4 +132,15 @@ test('compute both filter sytem', () => {
 	);
 });
 
+test('compute relations with custom attributes', () => {
+	const request = new Request('GetVolleyClubTeamList')
+		.addRelation('ChampionshipAt', null, { Date: '2020-07-01' })
+		.addRelation('ChampionshipAt.Championship.Division', ['Name']);
+
+	assert.equal(
+		request.toString(),
+		'<Request Type="GetVolleyClubTeamList"><Relation Name="ChampionshipAt" Date="2020-07-01"><Relation Name="Championship"><Relation Name="Division" Properties="Name"/></Relation></Relation></Request>'
+	);
+});
+
 test.run();

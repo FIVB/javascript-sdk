@@ -3,6 +3,7 @@ import { dset } from 'dset';
 type RelationOptions = {
 	properties: string[];
 	relations?: { [key: string]: RelationOptions };
+	customAttributes?: Record<string, string>;
 };
 
 export class Request {
@@ -33,9 +34,9 @@ export class Request {
 		return this;
 	}
 
-	public addRelation(name: string, properties: string[]): this {
+	public addRelation(name: string, properties: string[] | null, customAttributes?: Record<string, string>): this {
 		const path = name.split('.').join('.relations.');
-		dset(this.relations, path, { properties });
+		dset(this.relations, path, { properties, customAttributes });
 
 		return this;
 	}
@@ -92,6 +93,12 @@ export class Request {
 
 		if (relation.properties?.length > 0) {
 			output += ` ${this.propertiesTag}="${relation.properties.join(' ')}"`;
+		}
+
+		if (relation.customAttributes) {
+			Object.entries(relation.customAttributes).forEach(([attribute, value]) => {
+				output += ` ${attribute}="${value}"`;
+			});
 		}
 
 		if (relation.relations) {
