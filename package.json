@@ -29,9 +29,12 @@
 		"test": "loadr -- uvu test"
 	},
 	"dependencies": {
-		"dset": "^3.1.0"
+		"dset": "^3.1.0",
+		"lodash-es": "^4.17.21"
 	},
 	"devDependencies": {
+		"@types/lodash": "^4.14.177",
+		"@types/lodash-es": "^4.17.5",
 		"japa": "^3.1.1",
 		"loadr": "^0.1.1",
 		"microbundle": "^0.14.0",

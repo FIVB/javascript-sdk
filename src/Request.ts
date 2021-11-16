@@ -1,4 +1,5 @@
 import { dset } from 'dset';
+import { cloneDeep } from 'lodash-es';
 
 type RelationOptions = {
 	properties: string[];
@@ -27,6 +28,10 @@ export class Request {
 		if (properties) {
 			this.addRootAttribute(propertiesTag, properties.join(' '));
 		}
+	}
+
+	public clone(): this {
+		return cloneDeep(this);
 	}
 
 	public addRootAttribute(name: string, value: string | number): this {
