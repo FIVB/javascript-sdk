@@ -27,6 +27,14 @@ test('compute multiple attributes', () => {
 	assert.equal(request.toString(), '<Request Type="GetVolleyTransferList" Properties="No" Version="0"></Request>');
 });
 
+test('compute attributes with null values', () => {
+	const request = new Request('SavePlayer').addNode('Player', {
+		FirstName: null,
+	});
+
+	assert.equal(request.toString(), '<Request Type="SavePlayer"><Player FirstName=""/></Request>');
+});
+
 test('compute relation', () => {
 	const request = new Request('GetVolleyTransferList', ['No']).addRelation('Season', ['Name']);
 
