@@ -100,7 +100,7 @@ export class Request {
 
 	private attributesToString(attributes: Map<string, string>): string {
 		return Array.from(attributes)
-			.map(([key, value]) => `${key}="${value}"`)
+			.map(([key, value]) => `${key}="${value || ''}"`)
 			.join(' ');
 	}
 
@@ -147,7 +147,7 @@ export class Request {
 
 		if (Object.keys(node.attributes).length > 0) {
 			Object.entries(node.attributes).forEach(([attribute, value]) => {
-				output += ` ${attribute}="${value}"`;
+				output += ` ${attribute}="${value || ''}"`;
 			});
 		}
 
