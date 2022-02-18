@@ -1,7 +1,7 @@
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 
-import { Request } from '../src/Request.js';
+import { Request } from '../src';
 
 test('compute a standard request', () => {
 	const request = new Request('GetVolleyTransferList', ['No']);
@@ -21,6 +21,12 @@ test('let us use the old properties tag', () => {
 	assert.equal(request.toString(), '<Request Type="GetVolleyTransferList" Fields="No"></Request>');
 });
 
+test('clone request', () => {
+	const request = new Request('GetVolleyTransferList');
+	const request2 = request.clone().addRootAttribute('No', 1);
+	assert.not.equal(request.toString(), request2.toString());
+});
+
 test('compute multiple attributes', () => {
 	const request = new Request('GetVolleyTransferList', ['No']).addRootAttribute('Version', 0);
 
@@ -33,6 +39,14 @@ test('compute attributes with null values', () => {
 	});
 
 	assert.equal(request.toString(), '<Request Type="SavePlayer"><Player FirstName=""/></Request>');
+});
+
+test('compute attributes with boolean values', () => {
+	const request = new Request('SaveArticle').addNode('Article', {
+		IsVideoLive: true,
+	});
+
+	assert.equal(request.toString(), '<Request Type="SaveArticle"><Article IsVideoLive="true"/></Request>');
 });
 
 test('compute relation', () => {
