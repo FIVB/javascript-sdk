@@ -8,17 +8,17 @@ type RelationOptions = {
 };
 
 type NodeOptions = {
-	attributes: Record<string, string>;
+	attributes: Record<string, unknown>;
 	nodes?: { [key: string]: NodeOptions };
 };
 
 export class Request {
-	private type: RequestType;
-	private propertiesTag: PropertiesTagName = 'Properties';
-	private rootAttributes = new Map<string, string>();
+	private readonly type: RequestType;
+	private readonly propertiesTag: PropertiesTagName = 'Properties';
+	private rootAttributes = new Map<string, unknown>();
 	private relations: Record<string, RelationOptions> = {};
 	private nodes: Record<string, NodeOptions> = {};
-	private inlineFilters = new Map<string, string>();
+	private inlineFilters = new Map<string, unknown>();
 	private tagFilters = new Set<string>();
 
 	constructor(type: RequestType, properties?: string[], propertiesTag: PropertiesTagName = 'Properties') {
@@ -52,7 +52,7 @@ export class Request {
 		return this;
 	}
 
-	public addNode(name: string, attributes: Record<string, string>): this {
+	public addNode(name: string, attributes: Record<string, unknown>): this {
 		const path = name.split('.').join('.nodes.');
 		dset(this.nodes, path, { attributes });
 
@@ -98,7 +98,7 @@ export class Request {
 		return request;
 	}
 
-	private attributesToString(attributes: Map<string, string>): string {
+	private attributesToString(attributes: Map<string, unknown>): string {
 		return Array.from(attributes)
 			.map(([key, value]) => `${key}="${value || ''}"`)
 			.join(' ');
