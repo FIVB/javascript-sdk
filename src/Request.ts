@@ -12,6 +12,14 @@ type NodeOptions = {
 	nodes?: { [key: string]: NodeOptions };
 };
 
+function sanitizeHtmlEntities(value: unknown) {
+  if (!value) {
+    return
+  }
+
+  return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 export class Request {
 	private readonly type: RequestType;
 	private readonly propertiesTag: PropertiesTagName = 'Properties';
@@ -100,7 +108,7 @@ export class Request {
 
 	private attributesToString(attributes: Map<string, unknown>): string {
 		return Array.from(attributes)
-			.map(([key, value]) => `${key}="${value || ''}"`)
+			.map(([key, value]) => `${key}="${sanitizeHtmlEntities(value) || ''}"`)
 			.join(' ');
 	}
 
@@ -119,7 +127,7 @@ export class Request {
 
 		if (relation.customAttributes) {
 			Object.entries(relation.customAttributes).forEach(([attribute, value]) => {
-				output += ` ${attribute}="${value}"`;
+				output += ` ${attribute}="${sanitizeHtmlEntities(value)}"`;
 			});
 		}
 
@@ -147,7 +155,7 @@ export class Request {
 
 		if (Object.keys(node.attributes).length > 0) {
 			Object.entries(node.attributes).forEach(([attribute, value]) => {
-				output += ` ${attribute}="${value || ''}"`;
+				output += ` ${attribute}="${sanitizeHtmlEntities(value) || ''}"`;
 			});
 		}
 

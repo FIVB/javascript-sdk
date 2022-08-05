@@ -141,7 +141,7 @@ test('compute multiple tag filters', () => {
 	);
 });
 
-test('compute both filter sytem', () => {
+test('compute both filter system', () => {
 	const request = new Request('GetArticleList', ['No'], 'Fields')
 		.addInlineFilter('Statuses', 30)
 		.addInlineFilter('NoSeason', 11)
@@ -188,5 +188,17 @@ test('compute query with deep custom nodes', () => {
 		'<Request Type="SaveArticle"><Article DateTime="2020-07-01"><ArticleText Headline="Test"/></Article></Request>'
 	);
 });
+
+test('compute query with special characters', () => {
+  const request = new Request('SaveArticle')
+    .addNode('Article', {
+      Title: '<something>ba"d&'
+    })
+
+  assert.equal(
+    request.toString(),
+    '<Request Type="SaveArticle"><Article Title="&lt;something&gt;ba&quot;d&amp;"/></Request>'
+  )
+})
 
 test.run();
