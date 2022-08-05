@@ -1,7 +1,7 @@
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 
-import { Request } from '../src';
+import { Request } from '../src/Request';
 
 test('compute a standard request', () => {
 	const request = new Request('GetVolleyTransferList', ['No']);
