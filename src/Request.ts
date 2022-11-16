@@ -8,16 +8,17 @@ type RelationOptions = {
 };
 
 type NodeOptions = {
+	children?: string;
 	attributes: Record<string, unknown>;
 	nodes?: { [key: string]: NodeOptions };
 };
 
 function sanitizeHtmlEntities(value: unknown) {
-  if (!value) {
-    return
-  }
+	if (!value) {
+		return;
+	}
 
-  return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+	return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 export class Request {
@@ -60,9 +61,9 @@ export class Request {
 		return this;
 	}
 
-	public addNode(name: string, attributes: Record<string, unknown>): this {
+	public addNode(name: string, attributes: Record<string, unknown>, children?: string): this {
 		const path = name.split('.').join('.nodes.');
-		dset(this.nodes, path, { attributes });
+		dset(this.nodes, path, { attributes, children });
 
 		return this;
 	}
@@ -161,10 +162,13 @@ export class Request {
 
 		if (node.nodes) {
 			output += '>';
+
 			output += Object.keys(node.nodes!)
 				.map((key) => this.nodeToString(key, node.nodes![key]))
 				.join('');
 			output += `</${name}>`;
+		} else if (node.children) {
+			output += `>${node.children}</${name}>`;
 		} else {
 			output += '/>';
 		}

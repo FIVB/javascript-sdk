@@ -190,15 +190,27 @@ test('compute query with deep custom nodes', () => {
 });
 
 test('compute query with special characters', () => {
-  const request = new Request('SaveArticle')
-    .addNode('Article', {
-      Title: '<something>ba"d&'
-    })
+	const request = new Request('SaveArticle').addNode('Article', {
+		Title: '<something>ba"d&',
+	});
 
-  assert.equal(
-    request.toString(),
-    '<Request Type="SaveArticle"><Article Title="&lt;something&gt;ba&quot;d&amp;"/></Request>'
-  )
-})
+	assert.equal(
+		request.toString(),
+		'<Request Type="SaveArticle"><Article Title="&lt;something&gt;ba&quot;d&amp;"/></Request>'
+	);
+});
+
+test('compute query with custom node with content', () => {
+	const request = new Request('SavePlayer')
+		.addNode('Player', {
+			No: 1,
+		})
+		.addNode('Player.Photo', { Extension: 'png' }, 'Something');
+
+	assert.equal(
+		request.toString(),
+		'<Request Type="SavePlayer"><Player No="1"><Photo Extension="png">Something</Photo></Player></Request>'
+	);
+});
 
 test.run();
