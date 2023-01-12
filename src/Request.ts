@@ -267,6 +267,7 @@ export enum Models {
 	VolleyPlayer = 'VolleyPlayer',
 	VolleyPool = 'VolleyPool',
 	VolleyRankingDefinition = 'VolleyRankingDefinition',
+  VolleySeason = 'VolleySeason',
 	VolleyTeam = 'VolleyTeam',
 	VolleyTournament = 'VolleyTournament',
 	VolleyTransfer = 'VolleyTransfer',
@@ -336,7 +337,8 @@ export type GettableEntity =
 	| Models.VolleyTransfer
 	| Models.VolleyTransferContract
 	| Models.VolleyTransferFee
-	| Models.VolleyTransferPayment;
+	| Models.VolleyTransferPayment
+  | Models.VolleySeason;
 
 export type ListableEntity =
 	| Models.ApplicationRequestStatistic
@@ -397,6 +399,7 @@ export type ListableEntity =
 	| Models.VolleyMatchRefereeEvaluation
 	| Models.VolleyPlayer
 	| Models.VolleyRankingDefinition
+  | Models.VolleySeason
 	| Models.VolleyTournament
 	| Models.VolleyTransfer
 	| Models.VolleyTransferContract
@@ -459,8 +462,26 @@ export type SavableEntity =
 	| Models.VolleyTransferContract
 	| Models.VolleyTransferPayment;
 
+export type DeletableEntity = Models.VolleyTransferPayment;
+
+export type SpecialRequest =
+	| 'GetDocumentToken'
+	| 'AutoCreateUser'
+	| 'SendUserLoginInfo'
+	| 'UpdateTask'
+	| 'CancelVolleyTransferContract'
+	| 'ReleaseVolleyTransferContract'
+	| 'CancelVolleyTransferContractRelease'
+  | 'GenerateVolleyTransferContractCertificate';
+
 export type GetEntityListRequest = `Get${ListableEntity}List`;
 export type GetEntityRequest = `Get${GettableEntity}`;
 export type SaveEntityRequest = `Save${SavableEntity}`;
-export type RequestType = GetEntityRequest | GetEntityListRequest | SaveEntityRequest;
+export type DeleteEntityRequest = `Delete${DeletableEntity}`;
+export type RequestType =
+	| GetEntityRequest
+	| GetEntityListRequest
+	| SaveEntityRequest
+	| DeleteEntityRequest
+	| SpecialRequest;
 export type PropertiesTagName = 'Properties' | 'Fields';

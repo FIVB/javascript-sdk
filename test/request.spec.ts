@@ -200,11 +200,9 @@ test('compute query with special characters', () => {
 	);
 });
 
-test('compute query with custom node with content', () => {
+test('compute query with custom node with children', () => {
 	const request = new Request('SavePlayer')
-		.addNode('Player', {
-			No: 1,
-		})
+		.addNode('Player', { No: 1 })
 		.addNode('Player.Photo', { Extension: 'png' }, 'Something');
 
 	assert.equal(
